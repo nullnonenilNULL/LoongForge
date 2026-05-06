@@ -179,6 +179,6 @@ LoongForge is built upon NVIDIA's Megatron-LM. During development, we also refer
 ## 💬 Contact
 
 We welcome questions, feedback, feature requests, and contributions from the community. Please feel free to open an issue on GitHub, or scan the WeChat QR code below to join our developer community for discussion and collaboration.
+<img width="377" height="566" alt="2296f1c87a045dbb615d6697617f42d9" src="https://github.com/user-attachments/assets/1bc94e98-d9d7-41dc-b4b8-fefc6288bdc0" />
 
-<img width="377" height="566" alt="2deed0efb66ab6a98a50b3c716355191" src="https://github.com/user-attachments/assets/fb84c217-9288-4108-9709-100e46ed1d7a" />
 

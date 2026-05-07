@@ -49,7 +49,7 @@ TRAINING_ARGS=(
     --tensor-model-parallel-size 1
     --pipeline-model-parallel-size 1
     --no-masked-softmax-fusion
-    --ckpt-format fsdp_dtensor
+    --ckpt-format torch
     --load $CHECKPOINT_PATH
     --no-load-optim
     --no-load-rng

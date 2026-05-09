@@ -64,8 +64,8 @@ For complete installation steps, tutorials, and advanced usage, see the [LoongFo
 - **Kunlun XPU**: [Installation Guide](https://loongforge.readthedocs.io/en/latest/kunlun_tutorial/install_p800.html)
 
 ### Tutorials
-- **NVIDIA GPU**: [LLM](https://loongforge.readthedocs.io/en/latest/llm_tutorial/index.html), [VLM](https://loongforge.readthedocs.io/en/latest/vlm_tutorial/index.html), [VLA](https://loongforge.readthedocs.io/en/latest/vla_tutorial/index.html), and [WAN](https://loongforge.readthedocs.io/en/latest/wan_tutorial/index.html)
-- **Kunlun XPU**: [Kunlun XPU Tutorials](https://loongforge.readthedocs.io/en/latest/kunlun_tutorial/index.html)
+- **NVIDIA GPU**: [LLM](https://loongforge.readthedocs.io/en/latest/llm_tutorial/quick_start_llm_pretrain.html), [VLM](https://loongforge.readthedocs.io/en/latest/vlm_tutorial/quick_start_vlm_pretrain.html), [VLA](https://loongforge.readthedocs.io/en/latest/vla_tutorial/quick_start_pi05_training.html), and [WAN](https://loongforge.readthedocs.io/en/latest/wan_tutorial/quick_start_wan_training.html)
+- **Kunlun XPU**: [Kunlun XPU Tutorials](https://loongforge.readthedocs.io/en/latest/kunlun_tutorial/README.html)
 
 
 ## 🏛️ Supported Models

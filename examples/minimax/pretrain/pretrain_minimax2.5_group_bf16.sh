@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # This script is used for pre-training Minimax2.5 in BF16 mixed precision.
-
+export TORCH_FORCE_NO_WEIGHTS_ONLY_LOAD=1
 
 
 MEGATRON_PATH=${MEGATRON_PATH:-"/workspace/Loong-Megatron"}
@@ -13,6 +13,7 @@ CHECKPOINT_PATH=${CHECKPOINT_PATH:-"/mnt/cluster/LoongForge/minimax_m2.5/MiniMax
 
 TENSORBOARD_PATH=${TENSORBOARD_PATH:-"/mnt/cluster/LoongForge/tensorboard-log/minimax_m2"}
 
+GPUS_PER_NODE=8
 export NCCL_SOCKET_IFNAME=bond0
 export NCCL_IB_GID_INDEX=3
 export NVSHMEM_HCA_LIST=mlx5_2,mlx5_3,mlx5_4,mlx5_5,mlx5_6,mlx5_7,mlx5_8,mlx5_9

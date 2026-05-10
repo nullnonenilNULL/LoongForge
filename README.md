@@ -21,7 +21,6 @@
 
 <p align="center">
   <b>🚀 Up to 5.0× training speedup</b> &nbsp;·&nbsp;
-  <b>🧩 One framework for LLM / VLM / VLA / Diffusion</b> &nbsp;·&nbsp;
   <b>🌐 Native NVIDIA GPU & Kunlun XPU support</b>
 </p>
 

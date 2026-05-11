@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Blog — LoongForge</title>
+  <meta name="description"
+    content="LoongForge engineering blog — release announcements, performance deep-dives, and case studies." />
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+
+<body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+
+  <div id="scroll-progress"></div>
+
+  <!-- Shared navbar (rendered by main.js) -->
+  <header data-site-header data-active="blog"></header>
+
+  <section class="hero-gradient text-white">
+    <div class="max-w-7xl mx-auto px-6 py-16 text-center relative">
+      <div class="hero-grid absolute inset-0"></div>
+      <div class="relative">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-3" data-i18n="blog.hero.title">Engineering Blog</h1>
+        <p class="text-gray-300 max-w-2xl mx-auto" data-i18n="blog.hero.desc">Releases, performance deep-dives, and
+          stories from the LoongForge team</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-7xl mx-auto px-6 py-12 reveal">
+    <div id="featured-post" class="mb-12"></div>
+    <div id="tag-bar" class="flex flex-wrap gap-2 mb-8"></div>
+    <div id="post-list" class="grid md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </section>
+
+  <footer class="border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-center text-xs text-gray-500">
+      © 2026 LoongForge Authors · Apache 2.0
+    </div>
+  </footer>
+
+  <script src="assets/js/main.js"></script>
+  <script src="assets/js/blog.js"></script>
+</body>
+
+</html>

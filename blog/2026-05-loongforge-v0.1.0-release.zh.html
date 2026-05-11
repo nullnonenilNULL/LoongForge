@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>LoongForge v0.1.0 Release | LoongForge Blog</title>
+  <meta name="description"
+    content="LoongForge v0.1.0 首个对外版本：LLM/VLM/VLA/Diffusion 四类模态全覆盖，自适应 FP8、MoE 优化，原生支持 NVIDIA GPU 与昆仑 XPU。" />
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+
+<body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+
+  <div id="scroll-progress"></div>
+
+  <!-- Shared navbar (rendered by main.js) -->
+  <header data-site-header data-active="blog" data-base="../" data-lang-mode="post"></header>
+
+  <article class="max-w-4xl mx-auto px-6 py-14">
+    <a href="../blog.html" class="text-sm text-indigo-600 dark:text-indigo-300 hover:underline">← 返回博客</a>
+    <div class="mt-6 mb-8">
+      <div class="flex gap-2 mb-4 flex-wrap"><span class="chip">发布</span><span class="chip">v0.1.0</span></div>
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">LoongForge v0.1.0 Release</h1>
+      <div class="text-sm text-gray-500">2026-05-09 · LoongForge 团队</div>
+    </div>
+
+    <div class="prose-lf">
+      <p>我们很高兴正式发布 <b>LoongForge 首个对外版本</b> —— 一套模块化、可扩展、高性能的大规模 Transformer
+        训练框架，覆盖多种模态与架构。本次发布包含四类模态（<b>LLM、VLM、VLA、Diffusion</b>），并开箱支持 <b>Pretrain / MidTrain / SFT / LoRA</b> 全流程。</p>
+
+      <p>📖 <b>文档：</b> <a href="https://loongforge.readthedocs.io/zh-cn/v0.1.0/" target="_blank"
+          rel="noopener">loongforge.readthedocs.io/zh-cn/v0.1.0</a></p>
+
+      <h2>支持模型</h2>
+      <p>LoongForge 提供一组开箱即用的生产级模型配置。重点列举如下，完整列表见 <a
+          href="https://loongforge.readthedocs.io/zh-cn/v0.1.0/get_started/support_model.html" target="_blank"
+          rel="noopener">Supported Models</a> 文档。</p>
+
+      <h3>LLM</h3>
+      <ul>
+        <li>LLaMA 2 / 3</li>
+        <li>Qwen 2 / 2.5 / 3</li>
+        <li>DeepSeek V2 / V3 / R1</li>
+        <li>MiniMax</li>
+        <li>GLM-4</li>
+        <li>MIMO</li>
+      </ul>
+
+      <h3>VLM</h3>
+      <ul>
+        <li>Qwen-VL / Qwen2-VL / Qwen2.5-VL</li>
+        <li>InternVL 2 / 2.5</li>
+        <li>ERNIE-4.5-VL</li>
+        <li>LLaVA-OneVision-1.5</li>
+      </ul>
+
+      <h3>Diffusion &amp; VLA</h3>
+      <ul>
+        <li>WAN 2.2（视频 diffusion）</li>
+        <li>Pi0.5（视觉-语言-动作）</li>
+      </ul>
+
+      <h2>核心能力</h2>
+
+      <h3>⚡ 自适应 FP8 训练</h3>
+      <p>面向 LLM 与 VLM 的端到端 FP8 训练，<b>按 GEMM 形状逐算子判断是否启用 FP8</b> —— 在能提升吞吐处启用 FP8，对数值敏感处保留更高精度。</p>
+
+      <h3>🔀 MoE 优化</h3>
+      <p><b>All2All 通信</b>、<b>激活卸载</b>与<b>计算</b>的重叠调度，使万亿参数 MoE 训练能在紧凑显存预算内运行，同等负载下吞吐相对上游 Megatron-LM 有改进。</p>
+
+      <h3>🖼️ VLM 训练</h3>
+      <p><code>OmniCombinationModel</code> 将视觉编码器与 LLM 主干解耦为可组合组件，各侧可独立选择 TP/PP/DP 策略，由流水线调度器统一编排。替换 ViT 或 LLM 仅需改
+        YAML，无需改代码。</p>
+
+      <h3>🧠 显存与计算</h3>
+      <p>系统性显存优化 —— 激活卸载、重算规划、融合算子（如 FusedDSA、Sparse MLA） —— 在提升计算利用率的同时降低峰值显存占用。</p>
+
+      <h3>💾 Checkpoint 与 LoRA</h3>
+      <p>原生 <b>HuggingFace ↔ Megatron checkpoint 转换</b>，并通过 <code>--save-hf true</code> 支持在线 HuggingFace 存取。LoRA
+        作为一等能力：适配、训练、合并、发布一条龙。</p>
+
+      <h3>🔧 自定义算子</h3>
+      <p>高性能 CUDA/C++ 融合算子统一放在 <code>ops/</code> 下，通过硬件抽象层分发 —— 同一训练脚本可透明调用 GPU 原生或 XPU 原生实现。</p>
+
+      <h3>📦 数据管线</h3>
+      <p>多模态数据管线：图像/视频处理插件、序列打包、长度均衡、数据并行负载均衡 —— 面向大规模多机训练调优。</p>
+
+      <h3>🖥️ 异构硬件</h3>
+      <p><b>同一套代码同时运行在 NVIDIA GPU 与百度昆仑 XPU（P800）</b>上。首版已在两个平台上验证了主力 LLM 与 VLM 系列，硬件差异通过
+        <code>models/dispatch.py</code> 的插件化设计最小化侵入。
+      </p>
+
+      <h2>贡献者</h2>
+      <p>感谢所有让这个版本落地的同学。除了 GitHub 上公开的贡献者（<a href="https://github.com/nullnonenilNULL"
+          target="_blank">@nullnonenilNULL</a>、<a href="https://github.com/VVsssssk" target="_blank">@VVsssssk</a>、<a
+          href="https://github.com/XueSongTap" target="_blank">@XueSongTap</a>、<a href="https://github.com/Zachary-wW"
+          target="_blank">@Zachary-wW</a>、<a href="https://github.com/pengxiangyu" target="_blank">@pengxiangyu</a>、<a
+          href="https://github.com/NeverlanD0829" target="_blank">@NeverlanD0829</a>、<a
+          href="https://github.com/Dreamspr22" target="_blank">@Dreamspr22</a>、<a href="https://github.com/Yangsx-1"
+          target="_blank">@Yangsx-1</a>、<a href="https://github.com/kaimo455"
+          target="_blank">@kaimo455</a>），还要特别感谢<b>20+ 位内部开发者与早期贡献者</b>的长期投入 —— 是他们打下了 LoongForge 的底座。</p>
+
+      <h2>反馈与问题</h2>
+      <p>这是我们第一个对外版本 —— 非常欢迎社区反馈。可以通过 <a href="https://github.com/baidu-baige/LoongForge/issues" target="_blank"
+          rel="noopener">GitHub Issues</a> 提出问题、提交 PR，或通过 README 中的微信开发者群联系我们。</p>
+
+      <blockquote>🐉 v0.1.0 只是起点，不是终点。告诉我们下一步该建什么。</blockquote>
+    </div>
+
+    <div
+      class="mt-10 p-5 rounded-xl border border-indigo-200 dark:border-indigo-900/60 bg-indigo-50/60 dark:bg-indigo-950/30 text-sm">
+      🔗 <b>在 GitHub 查看：</b> <a href="https://github.com/baidu-baige/LoongForge/releases/tag/v0.1.0" target="_blank"
+        rel="noopener" class="text-indigo-700 dark:text-indigo-300 hover:underline break-all">LoongForge v0.1.0 Release
+        页面</a>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between text-sm">
+      <a href="2026-04-announcing-loongforge.zh.html" class="text-indigo-600 dark:text-indigo-300 hover:underline">←
+        上一篇：LoongForge 正式开源</a>
+      <a href="../blog.html" class="text-indigo-600 dark:text-indigo-300 hover:underline">所有文章 →</a>
+    </div>
+  </article>
+
+  <footer class="border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-center text-xs text-gray-500">© 2026 LoongForge Authors · Apache 2.0
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const POST_EN = '2026-05-loongforge-v0.1.0-release.html';
+      const POST_ZH = '2026-05-loongforge-v0.1.0-release.zh.html';
+      document.querySelectorAll('[data-post-lang]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.postLang;
+          try { localStorage.setItem('lf-lang', target); } catch (e) { }
+          location.href = target === 'zh' ? POST_ZH : POST_EN;
+        });
+      });
+      try {
+        const cur = (localStorage.getItem('lf-lang') === 'en') ? 'en' : 'zh';
+        document.querySelectorAll('[data-post-lang]').forEach(b =>
+          b.classList.toggle('active', b.dataset.postLang === cur)
+        );
+      } catch (e) { }
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

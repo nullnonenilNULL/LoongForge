@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>LoongForge v0.1.0 Release Notes | LoongForge Blog</title>
+  <meta name="description"
+    content="LoongForge v0.1.0 — the first public release. Broad model coverage across LLM/VLM/VLA/Diffusion, Adaptive FP8, MoE optimization, native NVIDIA GPU & Kunlun XPU." />
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+
+<body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+
+  <div id="scroll-progress"></div>
+
+  <!-- Shared navbar (rendered by main.js) -->
+  <header data-site-header data-active="blog" data-base="../" data-lang-mode="post"></header>
+
+  <article class="max-w-4xl mx-auto px-6 py-14">
+    <a href="../blog.html" class="text-sm text-indigo-600 dark:text-indigo-300 hover:underline">← Back to blog</a>
+    <div class="mt-6 mb-8">
+      <div class="flex gap-2 mb-4 flex-wrap"><span class="chip">Release</span><span class="chip">v0.1.0</span></div>
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">LoongForge v0.1.0 Release Notes</h1>
+      <div class="text-sm text-gray-500">2026-05-09 · The LoongForge Team</div>
+    </div>
+
+    <div class="prose-lf">
+      <p>We are excited to announce the <b>first public release of LoongForge</b> — a modular, scalable, and highly
+        efficient training framework for large-scale transformer models across diverse modalities and architectures.
+        This initial release covers four modality types (<b>LLM, VLM, VLA, Diffusion</b>), with out-of-the-box support
+        for <b>Pretrain, MidTrain, SFT, and LoRA</b> workflows.</p>
+
+      <p>📖 <b>Documentation:</b> <a href="https://loongforge.readthedocs.io/en/v0.1.0/" target="_blank"
+          rel="noopener">loongforge.readthedocs.io/en/v0.1.0</a></p>
+
+      <h2>Supported Models</h2>
+      <p>LoongForge ships with a wide set of production-ready model configurations. Highlighted below; the complete list
+        is in the <a href="https://loongforge.readthedocs.io/en/v0.1.0/get_started/support_model.html" target="_blank"
+          rel="noopener">Supported Models</a> docs.</p>
+
+      <h3>LLM</h3>
+      <ul>
+        <li>LLaMA 2 / 3</li>
+        <li>Qwen 2 / 2.5 / 3</li>
+        <li>DeepSeek V2 / V3 / R1</li>
+        <li>MiniMax</li>
+        <li>GLM-4</li>
+        <li>MIMO</li>
+      </ul>
+
+      <h3>VLM</h3>
+      <ul>
+        <li>Qwen-VL / Qwen2-VL / Qwen2.5-VL</li>
+        <li>InternVL 2 / 2.5</li>
+        <li>ERNIE-4.5-VL</li>
+        <li>LLaVA-OneVision-1.5</li>
+      </ul>
+
+      <h3>Diffusion &amp; VLA</h3>
+      <ul>
+        <li>WAN 2.2 (video diffusion)</li>
+        <li>Pi0.5 (vision-language-action)</li>
+      </ul>
+
+      <h2>Key Features</h2>
+
+      <h3>⚡ Adaptive FP8 Training</h3>
+      <p>End-to-end FP8 training for both LLMs and VLMs, with <b>per-operator decisions based on GEMM shape</b>. Enables
+        FP8 where it actually helps throughput, stays in higher precision where it would hurt numerics.</p>
+
+      <h3>🔀 MoE Optimization</h3>
+      <p>Overlapped <b>All2All communication</b>, <b>activation offload</b>, and <b>compute</b> — designed to hold
+        trillion-parameter MoE training within a tight memory budget, with throughput that improves on upstream
+        Megatron-LM for the same workload.</p>
+
+      <h3>🖼️ VLM Training</h3>
+      <p><code>OmniCombinationModel</code> decouples vision encoder and LLM backbone into composable components. Each
+        side can choose its own TP/PP/DP sizes, and a pipeline scheduler orchestrates them. Swapping a ViT or an LLM
+        becomes a YAML change, not a code change.</p>
+
+      <h3>🧠 Memory &amp; Compute</h3>
+      <p>Systemic memory optimizations — activation offloading, recomputation planning, and fused kernels (e.g.
+        FusedDSA, Sparse MLA) — reduce peak memory footprint while improving compute utilization.</p>
+
+      <h3>💾 Checkpoint &amp; LoRA</h3>
+      <p>Native <b>HuggingFace ↔ Megatron checkpoint conversion</b>, plus online HuggingFace load/save via
+        <code>--save-hf true</code>. LoRA adapters are first-class: attach, train, merge, ship.
+      </p>
+
+      <h3>🔧 Custom Operators</h3>
+      <p>High-performance CUDA/C++ fused operators live in <code>ops/</code> and are dispatched through a
+        hardware-abstracted layer, so the same training script can use GPU-native kernels or XPU-native equivalents
+        transparently.</p>
+
+      <h3>📦 Data Pipeline</h3>
+      <p>Multimodal data pipeline with image/video processing plugins, sequence packing, length balancing, and
+        data-parallel load balancing tuned for large multi-node training.</p>
+
+      <h3>🖥️ Heterogeneous Hardware</h3>
+      <p>The <b>same codebase runs on NVIDIA GPU and Baidu Kunlun XPU (P800)</b>. The initial release validates the
+        flagship LLM and VLM families on both platforms, with a minimally intrusive plugin design under
+        <code>models/dispatch.py</code>.
+      </p>
+
+      <h2>Contributors</h2>
+      <p>Thanks to everyone who shipped this release. In addition to the listed GitHub contributors (<a
+          href="https://github.com/nullnonenilNULL" target="_blank">@nullnonenilNULL</a>, <a
+          href="https://github.com/VVsssssk" target="_blank">@VVsssssk</a>, <a href="https://github.com/XueSongTap"
+          target="_blank">@XueSongTap</a>, <a href="https://github.com/Zachary-wW" target="_blank">@Zachary-wW</a>, <a
+          href="https://github.com/pengxiangyu" target="_blank">@pengxiangyu</a>, <a
+          href="https://github.com/NeverlanD0829" target="_blank">@NeverlanD0829</a>, <a
+          href="https://github.com/Dreamspr22" target="_blank">@Dreamspr22</a>, <a href="https://github.com/Yangsx-1"
+          target="_blank">@Yangsx-1</a>, <a href="https://github.com/kaimo455" target="_blank">@kaimo455</a>), we are
+        grateful to <b>20+ internal developers and early contributors</b> whose work laid the foundation for LoongForge.
+      </p>
+
+      <h2>Feedback &amp; Bug Reports</h2>
+      <p>This is our first public release — we actively welcome community feedback. Open an <a
+          href="https://github.com/baidu-baige/LoongForge/issues" target="_blank" rel="noopener">issue on GitHub</a>,
+        file a PR, or reach us through the WeChat developer group linked from our README.</p>
+
+      <blockquote>🐉 v0.1.0 is a beginning, not an arrival. Tell us what to build next.</blockquote>
+    </div>
+
+    <div
+      class="mt-10 p-5 rounded-xl border border-indigo-200 dark:border-indigo-900/60 bg-indigo-50/60 dark:bg-indigo-950/30 text-sm">
+      🔗 <b>View on GitHub:</b> <a href="https://github.com/baidu-baige/LoongForge/releases/tag/v0.1.0" target="_blank"
+        rel="noopener" class="text-indigo-700 dark:text-indigo-300 hover:underline break-all">LoongForge v0.1.0 release
+        page</a>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between text-sm">
+      <a href="2026-04-announcing-loongforge.html" class="text-indigo-600 dark:text-indigo-300 hover:underline">← Prev:
+        Announcing LoongForge</a>
+      <a href="../blog.html" class="text-indigo-600 dark:text-indigo-300 hover:underline">All posts →</a>
+    </div>
+  </article>
+
+  <footer class="border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-center text-xs text-gray-500">© 2026 LoongForge Authors · Apache 2.0
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const POST_EN = '2026-05-loongforge-v0.1.0-release.html';
+      const POST_ZH = '2026-05-loongforge-v0.1.0-release.zh.html';
+      document.querySelectorAll('[data-post-lang]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.postLang;
+          try { localStorage.setItem('lf-lang', target); } catch (e) { }
+          location.href = target === 'zh' ? POST_ZH : POST_EN;
+        });
+      });
+      try {
+        const cur = (localStorage.getItem('lf-lang') === 'zh') ? 'zh' : 'en';
+        document.querySelectorAll('[data-post-lang]').forEach(b =>
+          b.classList.toggle('active', b.dataset.postLang === cur)
+        );
+      } catch (e) { }
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

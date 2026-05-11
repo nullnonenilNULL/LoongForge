@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>Announcing LoongForge — Baidu Baige Open-Sources the Omni-Modal Training Framework | LoongForge Blog</title>
+  <meta name="description"
+    content="Baidu Baige open-sources LoongForge: one codebase across NVIDIA GPU and Kunlun XPU, up to 45% speedup for multimodal training." />
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+
+<body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+
+  <div id="scroll-progress"></div>
+
+  <!-- Shared navbar (rendered by main.js) -->
+  <header data-site-header data-active="blog" data-base="../" data-lang-mode="post"></header>
+
+  <article class="max-w-4xl mx-auto px-6 py-14">
+    <a href="../blog.html" class="text-sm text-indigo-600 dark:text-indigo-300 hover:underline">← Back to blog</a>
+    <div class="mt-6 mb-8">
+      <div class="flex gap-2 mb-4 flex-wrap"><span class="chip">Announcement</span><span class="chip">Open
+          Source</span><span class="chip">Multimodal</span></div>
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">Announcing LoongForge — Baidu Baige
+        open-sources its omni-modal training framework: one codebase for GPU and Kunlun XPU, up to 45% faster multimodal
+        training</h1>
+      <div class="text-sm text-gray-500">2026-04-24 · The LoongForge Team</div>
+    </div>
+
+    <div class="prose-lf">
+      <blockquote>Ideas are cheap. Ideas that can be quickly validated are what's valuable.</blockquote>
+
+      <p>As models begin to simultaneously understand images, video, and even the physical world — and gradually acquire
+        the ability to act — one question becomes unavoidable: <b>are we still training the next generation of models on
+          infrastructure built for the LLM era?</b> If the answer is yes, then the problem is no longer "can we squeeze
+        a bit more efficiency out of it," but rather that a structural mismatch has emerged between the training system
+        itself and the shape of modern models. LoongForge, an omni-modal training framework, is our systematic answer to
+        that gap.</p>
+
+      <p>📚 GitHub: <a href="https://github.com/baidu-baige/LoongForge" target="_blank"
+          rel="noopener">https://github.com/baidu-baige/LoongForge</a></p>
+
+      <h2>1. Industry context: two forces reshaping AI infrastructure</h2>
+      <p>Over the past three years, the large-model landscape has changed not just in scale but in its foundational
+        assumptions. Viewed separately, these are natural evolutions on the model side and on the compute side; viewed
+        together, they are redefining what AI infrastructure should look like.</p>
+
+      <h3>1.1 Multimodality is becoming the new foundation of large models</h3>
+      <p>The architectural trajectory is clear. Early multimodal models typically bolted a vision encoder onto a
+        text-only LLM to add image understanding — examples include InternVL and Qwen3-VL. Essentially, these are "a
+        vision plug-in next to a language model"; the two are not truly unified in training objective or representation
+        space.</p>
+      <p>A new generation is taking a different path. Ernie 4.5, Qwen3.5, and Kimi K2.5 bring multimodality directly
+        into pre-training, with vision and language sharing the same learning mechanism from day one. Multimodality is
+        no longer a feature that can be added on demand — it has become the foundational structure that determines a
+        model's capability ceiling.</p>
+      <p>The rise of embodied intelligence reinforces this. VLA (Vision-Language-Action) models don't replace
+        multimodality; they build on top of VLMs. Only when a model can stably perceive and understand the world can it
+        meaningfully interact with a physical environment. From this angle, multimodality is not just about visual
+        understanding — it is the starting point of AI reaching into the real world.</p>
+
+      <h3>1.2 Compute is moving from single-vendor supply to heterogeneous ecosystems</h3>
+      <p>Compute is changing in parallel. Domestic chips such as the Kunlun P800 have moved from isolated pilots to
+        large-scale deployment; thousand-card clusters participating in large-model training are becoming normal. A
+        diverse compute supply is now the industry's baseline reality, and it imposes a new requirement on training
+        frameworks: cross-platform execution. "One codebase, stable on different hardware" is no longer just an
+        engineering nice-to-have — it directly determines iteration speed and cost control.</p>
+
+      <h2>2. The core challenge: capability mismatch in the multimodal era</h2>
+      <p>Multimodal training doesn't add complexity along a single axis; it stacks multiple forms of heterogeneity on
+        top of each other. Data extends from text to images, video, and even action signals. Model structures evolve
+        from a single backbone to a multi-component system. <b>At the same time, compute platforms are moving from a
+          single GPU stack to a mix of hardware.</b> Mainstream training frameworks, however, were designed on the
+        opposite assumption — homogeneous data, uniform structure, fixed platform — and that mismatch is becoming
+        visible.</p>
+
+      <h3>2.1 Challenge 1: iteration speed dragged down by engineering complexity</h3>
+      <p><b>Multimodal R&D has shifted from "scaling a single backbone" to "jointly tuning multiple components."</b>
+        High-performance frameworks like Megatron tightly couple model definition with distributed strategy — onboarding
+        a new model means touching low-level code and rewriting the network, with adaptation cycles often measured in
+        weeks. Frameworks like FSDP make model onboarding fast and debugging easy, but communication efficiency and
+        memory management leave room to improve at large scale, creating bottlenecks under extreme performance
+        requirements.</p>
+      <p>The result: teams are forced to trade off between "fast iteration" and "efficient performance."</p>
+
+      <h3>2.2 Challenge 2: hidden performance loss from heterogeneous structure</h3>
+      <p>Multimodal training faces two prominent efficiency problems. First, the parameter count of vision components
+        (ViT) and language components (LLM) differs by orders of magnitude; a one-size-fits-all parallel strategy cannot
+        allocate optimal resources per component. Second, the extreme non-uniformity of multimodal data, at large
+        cluster scale, amplifies into visible load imbalance, leaving some GPUs waiting for the slowest node.</p>
+      <p>These issues don't crash training, but they silently erode throughput and quietly inflate compute cost.</p>
+
+      <h3>2.3 Challenge 3: the sunk cost of cross-platform migration</h3>
+      <p>Community frameworks are tightly coupled to specific hardware ecosystems. Companies trying domestic chips often
+        end up maintaining two entirely separate code branches.</p>
+      <p>Even more critically, after migration, lack of framework-level optimization means performance parity across
+        platforms is hard to achieve. There is a wide gap between "it runs" and "it runs efficiently."</p>
+
+      <h2>3. LoongForge: positioning and core value</h2>
+      <p>Against this backdrop, Baidu Baige is open-sourcing LoongForge, a multimodal training framework designed to
+        tackle the structural problems of multimodal training head-on.</p>
+      <p>The framework evolved from Baidu Baige's AIAK training acceleration suite, with <b>Megatron as the core engine
+          and a native re-architecture for multimodal scenarios.</b> LoongForge has been validated for extended periods
+        in production across NVIDIA GPU and Kunlun XPU platforms on multi-thousand-card clusters, covering workloads
+        from LLM to VLM and VLA.</p>
+      <p>LoongForge delivers a unified, efficient, and easy-to-use training acceleration solution for the native
+        multimodal era.</p>
+      <ul>
+        <li><b>Unified:</b> one framework covers LLM, VLM, VLA, and Diffusion. 20+ model-family components ship out of
+          the box, natively compatible with DeepSeek, Qwen, InternVL, LLaVA-OV, ERNIE, MiniMax, MIMO, Pi0.5, WAN, and
+          more. End-to-end support from pretrain to SFT, across NVIDIA GPU and Kunlun XPU.</li>
+        <li><b>Efficient:</b> a full optimization stack spanning LLM-base tuning, multimodal-specific optimizations, and
+          low-level operator acceleration. LoongForge achieves 15%–40% end-to-end speedup on mainstream models, multi-x
+          gains on cutting-edge architectures like DeepSeek V3.2, and 90%+ linear scaling on 5000+-card Kunlun P800
+          clusters.</li>
+        <li><b>Easy to use:</b> built on a unified model-layer abstraction that decomposes models into Encoder,
+          Foundation, and combination-scheduling layers. Adding a new model only requires registering components and
+          wiring them via YAML — no low-level code changes. Adaptation cycles shrink from weeks to days.</li>
+      </ul>
+
+      <h2>4. Architecture and core capabilities</h2>
+      <p>LoongForge is organized into model, system, and hardware layers — mapping respectively to the engineering
+        complexity, system efficiency, and platform fragmentation problems of multimodal training.</p>
+
+      <h3>4.1 Model layer: unified abstractions that lower the barrier to building multimodal models</h3>
+      <p>Multimodal models are diverse on the surface, but share a common underlying pattern: the backbone is always an
+        LLM; what differs is which modality encoders/decoders are attached around it.</p>
+      <p>On top of Megatron, LoongForge introduces a unified network abstraction that decomposes a multimodal model into
+        three parts: a perception encoding layer (Encoder), a generative backbone layer (Foundation), and a
+        combination-scheduling layer (OmniCombinationModel).</p>
+      <p>A single YAML file automatically wires components and configures parallel strategies. The framework handles all
+        cross-layer coordination, keeping it completely transparent to the model developer.</p>
+
+      <h3>4.2 System layer: end-to-end optimization to unlock multimodal training efficiency</h3>
+      <p>LoongForge optimizes by layered stacking: first drive LLM-base training efficiency to the limit, then tackle
+        multimodal-specific bottlenecks. The ceiling of multimodal training is first set by the language-base foundation
+        — if the foundation is shaky, higher-layer optimizations become castles in the air.</p>
+      <p>A few representative directions:</p>
+      <p>LLM-base optimizations:</p>
+      <ul>
+        <li><b>CCT compute-comm-transfer parallelism: breaking the "memory vs. communication" deadlock in long-sequence
+            MoE training.</b> In long-context MoE training, expert parallelism (EP) introduces significant All-to-All
+          communication overhead. To hide it, community solutions typically fine-grain-split compute modules, but this
+          fundamentally conflicts with the full-layer recomputation required for long-sequence training. You end up with
+          either fast communication and OOM, or saved memory and slow communication — never both. LoongForge's CCT
+          (Computation-Communication-Transfer) parallelism introduces a memory-offload strategy and unifies scheduling
+          and orchestration of compute, communication, and data transfer for extreme overlap. On A800 clusters,
+          Qwen3-30B-A3B at 32K sequences trains 20% faster with CCT; community alternatives simply OOM under the same
+          conditions and cannot even enable their communication optimizations.</li>
+        <li><b>ChunkPipe pipeline parallelism: making ultra-long-sequence training viable on mid-sized clusters.</b>
+          Context windows keep growing, and 1M-level sequence training is becoming real. But when TP, PP, and EP already
+          consume the available cluster budget, there's often no room left for sequence parallelism, and the training
+          task cannot run. LoongForge's ChunkPipe pipeline parallelism turns the memory cost of ultra-long sequences
+          from "linear with length" into "a bounded fixed cost," breaking the memory bottleneck without relying on
+          sequence parallelism.</li>
+        <li><b>DSA operator fusion: end-to-end acceleration for DeepSeek V3.2's sparse attention.</b> LoongForge
+          performs deep CUDA operator fusion across the entire attention path, including indexing kernels, sparse
+          attention, MQA absorbed-KV layout, and sequence packing. Compared to non-fused baselines, end-to-end training
+          performance improves by ~5x.</li>
+      </ul>
+      <p>Multimodal-architecture optimizations:</p>
+      <ul>
+        <li><b>DP load balancing: eliminating hidden compute waste from heterogeneous multimodal data.</b> Multimodal
+          samples mix single images, multi-images, videos, and plain text, with wildly different sequence lengths.
+          Traditional data parallelism distributes samples evenly across GPUs; due to attention's quadratic complexity,
+          however, actual compute per rank can differ drastically. LoongForge builds an automated compute-load balancing
+          mechanism that dynamically rearranges sample allocation before each iteration, significantly narrowing the gap
+          across ranks. This is one of the key enablers behind LoongForge's 90%+ linear scaling efficiency on
+          thousand-card Kunlun clusters.</li>
+        <li><b>Heterogeneous parallelism per model component:</b> let ViT and LLM each use their optimal strategy
+          instead of being forced to share one. In a typical VLM, the ViT is ~300M parameters while the LLM backbone can
+          reach hundreds of billions — a hundred-fold difference. LoongForge implements component-level heterogeneous
+          parallelism, letting the vision encoder and language backbone each pick their optimal configuration, and
+          further enables fully decoupled encoder-decoder parallel training, eliminating pipeline imbalance and bubbles
+          introduced by the vision encoder. On Qwen3-VL-30B at 32K sequences, end-to-end throughput improves by up to
+          50% vs. community solutions.</li>
+      </ul>
+      <p>Mixed-precision training optimizations:</p>
+      <ul>
+        <li><b>Adaptive FP8:</b> moving mixed precision from "one global config" to "dynamically optimal per scenario."
+          FP8 can significantly boost training throughput, but in MoE small-expert, high-parallelism, short-sequence,
+          and vision-language mixed scenarios, quantization overhead can actually cause regression. LoongForge's
+          Selective FP8 generates dynamic precision strategies from offline benchmarks and automatically chooses FP8 or
+          BF16 per layer/component at init, allowing ViT and LLM to use independent strategies. This keeps FP8's
+          throughput upside while avoiding its downsides; on Qwen3-VL 235B at 16K sequences, Selective FP8 gains another
+          ~10% over full FP8.</li>
+      </ul>
+
+      <h3>4.3 Hardware layer: one codebase, multiple platforms</h3>
+      <p>On the GPU side, LoongForge integrates natively with Megatron via PyTorch/CUDA, preserving the full performance
+        of the native training stack. On the XPU side, a pluggable XPU_Plugin hardware-adaptation layer encapsulates the
+        low-level interface differences between Kunlun and NVIDIA GPUs, enabling zero-intrusion integration with the
+        Megatron engine.</p>
+      <p>The same training code switches between NVIDIA GPU and Kunlun XPU with only an environment-variable change.</p>
+
+      <h2>5. Performance: numbers, at the same hardware</h2>
+      <p>Measured results across representative scenarios. All comparisons pick each framework's best runnable
+        configuration on the same hardware.</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Model</th>
+            <th>Config</th>
+            <th>LoongForge vs. community</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Qwen3-30B-A3B (MoE)</td>
+            <td>32K seq</td>
+            <td><b>+16%</b></td>
+          </tr>
+          <tr>
+            <td>DeepSeek V3.2 (MoE)</td>
+            <td>8K seq</td>
+            <td><b>+480%</b></td>
+          </tr>
+          <tr>
+            <td>Qwen3-Next (MoE)</td>
+            <td>32K seq</td>
+            <td><b>+15%</b></td>
+          </tr>
+          <tr>
+            <td>Qwen3-VL-30B-A3B (VLM)</td>
+            <td>32K seq</td>
+            <td><b>+45%</b></td>
+          </tr>
+          <tr>
+            <td>PI0.5 (VLA)</td>
+            <td>BF16</td>
+            <td><b>+49%</b></td>
+          </tr>
+        </tbody>
+      </table>
+      <p>Under matched GPU hardware and task conditions, LoongForge delivers 15%–50% end-to-end training speedup on
+        mainstream models; on cutting-edge architectures like DeepSeek V3.2, it achieves a 4.8x improvement, and thanks
+        to memory-layer optimizations, allows training longer sequences on the same hardware. On 5000+-card Kunlun P800
+        clusters, it reaches 90%+ linear scaling efficiency.</p>
+
+      <h2>6. Case studies: forged in real production</h2>
+      <p>LoongForge's capabilities don't come from benchmarks — they come from continuous refinement in real production
+        environments.</p>
+
+      <p><b>Case 1: LLaVA-OneVision-2.0 (upcoming).</b> A fully open-source full-frame-rate multimodal vision-language
+        model. Targeted at real-world video understanding, it restructures the video understanding path, optimizes
+        per-frame information extraction and visual encoding, and reduces redundant compute — without dropping frames —
+        driving down video token consumption significantly. It achieves Qwen3-VL-comparable video understanding at
+        noticeably lower cost and latency. Training was done entirely on LoongForge; the framework's heterogeneous
+        parallelism and load balancing delivered significant gains in resource utilization and end-to-end iteration
+        speed.</p>
+
+      <p><b>Case 2: LLaVA-OneVision-1.5.</b> An 8B multimodal model with a new RICE-ViT visual encoder. Pretrained in
+        just 4 days on 128 A800 GPUs, with performance on par with top-tier large models. The release fully opens 85M
+        pretraining samples, 22M instruction samples, and a complete training optimization recipe — end-to-end
+        open-source. LoongForge provided end-to-end support from data processing, encoder adaptation, to training
+        optimization — out-of-the-box — validating the framework's engineering capability for new multimodal
+        architectures.</p>
+
+      <p><b>Case 3: Qianfan-VL.</b> Qianfan-VL is a general-purpose multimodal series reinforced for enterprise-grade
+        multimodal use cases, with strong general capability and deep optimization for high-frequency industry
+        scenarios. It covers 3B/8B/70B enterprise-grade multimodal models, trained on Kunlun P800 chips across a
+        5000+-card ultra-large-scale distributed training system. With 3D parallelism and compute-communication fusion,
+        it achieved 90%+ cluster scaling efficiency and efficiently processed 3T training tokens. All three sizes share
+        a single codebase; core capabilities have been fully validated in production, demonstrating LoongForge's
+        stability and performance on domestic large-scale clusters.</p>
+
+      <h2>7. Hands-on: YAML-driven, out-of-the-box</h2>
+      <p>LoongForge unifies model definition, training strategy, data processing, and weight management into a
+        configuration-driven workflow: one YAML defines the network, one argument switches parallel strategy, one
+        command starts training.</p>
+
+      <p><b>1. Wiring a model: swapping the backbone is a one-line config change.</b></p>
+      <p>LoongForge uses declarative configuration to flexibly compose multimodal models from components. For
+        Qwen3.5-35B-A3B, a single YAML wires up the vision encoder, projector, and language backbone:</p>
+      <pre><code class="language-yaml">defaults:
+  - ../../models/image_encoder@model.image_encoder: qwen3_vit
+  - ../../models/image_projector@model.image_projector: qwen_mlp_adapter
+  - ../../models/qwen3@model.foundation: qwen3_30b_a3b
+  - _self_
+
+model:
+  model_type: qwen3_vl
+  ...</code></pre>
+      <p>To swap the language backbone to DeepSeek V3, change a single reference:</p>
+      <pre><code class="language-diff"> defaults:
+   - ../../models/image_encoder@model.image_encoder: qwen3_vit
+   - ../../models/image_projector@model.image_projector: qwen_mlp_adapter
+-  - ../../models/qwen3@model.foundation: qwen3_30b_a3b
++  - ../../models/deepseek3@model.foundation: deepseek_v3
+   - _self_</code></pre>
+
+      <p><b>2. Training config: zero learning cost for Megatron users.</b></p>
+      <p>LoongForge preserves Megatron's native argument style, and on top supports Hydra overrides to independently
+        configure parallel and freezing strategies per component.</p>
+      <p><b>Base training args</b> (Megatron-compatible):</p>
+      <pre><code class="language-bash">TRAINING_ARGS=(
+    --training-phase sft
+    --seq-length 32768
+    --micro-batch-size 1
+    ...
+)
+
+MODEL_PARALLEL_ARGS=(
+    --tensor-model-parallel-size 1
+    --pipeline-model-parallel-size 2
+    --expert-model-parallel-size 8
+    ...
+)</code></pre>
+      <p><b>Per-component overrides</b> (Hydra):</p>
+      <pre><code class="language-bash"># Different TP for vision encoder and language backbone
++model.image_encoder.tensor-model-parallel-size=1
++model.foundation.tensor-model-parallel-size=4
+
+# Freeze components flexibly
++model.image_encoder.freeze=True
++model.foundation.freeze=True</code></pre>
+
+      <p><b>3. Weights: from offline conversion to online loading.</b></p>
+      <p>LoongForge supports both offline conversion of HuggingFace weights into Megatron's training format, and direct
+        loading of HuggingFace weights with no conversion step. After training, one flag exports back to HF format for
+        seamless integration with the downstream ecosystem.</p>
+      <pre><code class="language-bash">TRAINING_ARGS=(
+    --load $CHECKPOINT_PATH         # Point directly at the HF model directory
+    --save $CHECKPOINT_PATH         # Auto-save high-performance checkpoints during training
+    --save-interval 40
+    --save-hf true                  # Export HF weights on finish
+    --save-hf-path /path/to/output
+    ...
+)</code></pre>
+
+      <p><b>4. Data: one command gets your data ready.</b></p>
+      <p>LoongForge ships a built-in data-preprocessing toolchain:</p>
+      <pre><code class="language-bash">python tools/data_preprocess/vlm/convert_to_webdataset.py \
+  --output_dir /workspace/wds_data/ \
+  --json_file tests/datasets/vlm/mllm_demo.json \
+  --image_dir tests/datasets/vlm/ \
+  --video_dir tests/datasets/vlm/ \
+  --media mix \
+  --columns_messages messages \
+  --maxcount 10000 \
+  --maxsize 3000000000 \
+  --sample_type multi_mix_qa</code></pre>
+
+      <p><b>5. Launch training: 20+ model families, out-of-the-box.</b></p>
+      <p>LoongForge provides full support for mainstream open-source models. See <a
+          href="https://github.com/baidu-baige/LoongForge/tree/main/configs/models/" target="_blank"
+          rel="noopener">configs/models/</a> for network configs, and <a
+          href="https://github.com/baidu-baige/LoongForge/tree/main/examples/" target="_blank"
+          rel="noopener">examples/</a> for data-prep and launch scripts. Full model-support list in the <a
+          href="https://loongforge.readthedocs.io/en/latest/get_started/support_model.md" target="_blank"
+          rel="noopener">docs</a>.</p>
+
+      <h2>8. Roadmap</h2>
+      <p>Building on current production practice, LoongForge will keep iterating along these directions:</p>
+      <ul>
+        <li><b>Model ecosystem:</b> expanding the adaptation matrix to cover new open-source bases like Kimi 2.6, and
+          deepening support for embodied models.</li>
+        <li><b>Long-sequence training:</b> improving training support for million-level ultra-long sequences, broadening
+          strategy compatibility, and lowering the memory/resource bar for long contexts.</li>
+        <li><b>Training performance:</b> continuously improving engine efficiency along parallelism, operator fusion,
+          memory optimization, and communication scheduling to extract more from large-scale clusters.</li>
+        <li><b>Training-inference integration:</b> connecting training and inference optimization, with MTP-extension
+          best practices to improve decoding efficiency and end-to-end delivery speed.</li>
+        <li><b>Usability and tooling:</b> continuously lowering the bar for model onboarding and tuning, improving
+          surrounding tooling so developers can focus on model innovation itself.</li>
+      </ul>
+
+      <h2>9. Closing: tools set the pace; infrastructure sets the ceiling</h2>
+      <p>There's a recurring pattern in the history of technology: when a field's complexity outgrows individuals and
+        small teams, a tool appears that absorbs the complexity, lowers the bar for innovation, and the field suddenly
+        accelerates.</p>
+      <p>CUDA let researchers use GPUs for general-purpose compute without graphics expertise, and the scaling era of
+        deep learning truly began. PyTorch wrapped distributed training and autograd into directly usable tools, and
+        model innovation speed jumped.</p>
+      <p>Today, multimodal large-model training is at such an inflection point.</p>
+      <p>Jiayi Weng, a core infrastructure builder at OpenAI, has repeatedly said in public talks: "In today's
+        large-model competition, what wins is not whose idea is more clever, but the correctness of AI Infra and the
+        number of iterations per unit time."</p>
+      <p>He also said: "Ideas are cheap. Ideas that can be quickly validated are what's valuable."</p>
+      <p>What really creates separation, with the same compute, is who can run more experiments, who can fail faster,
+        and who can train high-quality models more reliably. AI engineering and infrastructure are becoming the core
+        capability boundary of the large-model era. Rapidly evolving model architectures, highly heterogeneous data, and
+        a fragmented compute landscape have become widespread friction and waste. LoongForge's job is to absorb that
+        complexity into the framework, so teams can put their effort back into model innovation. When training stops
+        being the bottleneck, the multimodal era really starts to accelerate.</p>
+      <p>LoongForge is open-sourced under Apache 2.0, so that unified, efficient, easy-to-use training capability can
+        gradually settle into shared industry infrastructure — <b>and more valuable ideas can be quickly validated</b>.
+        We welcome community contributions on new model adaptations, performance tuning, and tooling, and we hope to
+        build the AI training infrastructure of the native multimodal era together.</p>
+    </div>
+
+    <div
+      class="mt-10 p-5 rounded-xl border border-indigo-200 dark:border-indigo-900/60 bg-indigo-50/60 dark:bg-indigo-950/30 text-sm">
+      📖 <b>Source (Zhihu, Chinese):</b> <a href="https://zhuanlan.zhihu.com/p/2031006068797600446" target="_blank"
+        rel="noopener" class="text-indigo-700 dark:text-indigo-300 hover:underline break-all">百度百舸开源全模态训练框架
+        LoongForge：一套代码跑通 GPU 与昆仑芯，多模态训练提速 45%</a>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between text-sm">
+      <a href="2025-10-llava-onevision-case-study.html" class="text-indigo-600 dark:text-indigo-300 hover:underline">←
+        Previous: LLaVA-OneVision-1.5 case study</a>
+      <a href="2026-05-loongforge-v0.1.0-release.html"
+        class="text-indigo-600 dark:text-indigo-300 hover:underline">Next: v0.1.0 Release →</a>
+    </div>
+  </article>
+
+  <footer class="border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-center text-xs text-gray-500">© 2026 LoongForge Authors · Apache 2.0
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const POST_EN = '2026-04-announcing-loongforge.html';
+      const POST_ZH = '2026-04-announcing-loongforge.zh.html';
+      document.querySelectorAll('[data-post-lang]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.postLang;
+          try { localStorage.setItem('lf-lang', target); } catch (e) { }
+          location.href = target === 'zh' ? POST_ZH : POST_EN;
+        });
+      });
+      try {
+        const cur = (localStorage.getItem('lf-lang') === 'zh') ? 'zh' : 'en';
+        document.querySelectorAll('[data-post-lang]').forEach(b =>
+          b.classList.toggle('active', b.dataset.postLang === cur)
+        );
+      } catch (e) { }
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-diff.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

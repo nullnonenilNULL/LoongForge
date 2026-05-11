@@ -1,0 +1,81 @@
+[
+    {
+        "slug": "2025-10-llava-onevision-case-study",
+        "date": "2025-10-15",
+        "featured": false,
+        "tags_en": [
+            "Case Study",
+            "VLM",
+            "LLaVA"
+        ],
+        "tags_zh": [
+            "案例",
+            "VLM",
+            "LLaVA"
+        ],
+        "en": {
+            "title": "128 GPUs, 4 days — Baidu Baige powers LLaVA-OneVision-1.5, a new record in multimodal training efficiency",
+            "author": "The LoongForge Team",
+            "summary": "LLaVA-OneVision-1.5 pretrained an 8B multimodal model in just 4 days on 128 A800 GPUs with performance rivaling top-tier large models — powered by Baidu Baige's AIAK training framework, the predecessor of LoongForge.",
+            "url": "blog/2025-10-llava-onevision-case-study.html"
+        },
+        "zh": {
+            "title": "128 卡 4 天时间！百度百舸助力 LLaVA-OneVision-1.5 刷新多模态大模型训练效率纪录",
+            "author": "LoongForge 团队",
+            "summary": "LLaVA-OneVision-1.5 在 128 张 A800 上仅用 4 天完成 8B 多模态模型预训练，性能媲美顶级大模型；底层由百度百舸 AIAK 训练框架（LoongForge 的前身）提供全链路加速。",
+            "url": "blog/2025-10-llava-onevision-case-study.zh.html"
+        }
+    },
+    {
+        "slug": "2026-04-announcing-loongforge",
+        "date": "2026-04-24",
+        "featured": false,
+        "tags_en": [
+            "Announcement",
+            "Open Source",
+            "Multimodal"
+        ],
+        "tags_zh": [
+            "官宣",
+            "开源",
+            "多模态"
+        ],
+        "en": {
+            "title": "Announcing LoongForge — Baidu Baige open-sources its omni-modal training framework: one codebase for GPU and Kunlun XPU, up to 45% faster multimodal training",
+            "author": "The LoongForge Team",
+            "summary": "Baidu Baige open-sources LoongForge — one codebase across NVIDIA GPU and Kunlun XPU, 15%–50% end-to-end speedups on mainstream models, up to 4.8x on DeepSeek V3.2, 90%+ linear scaling on 5000+-card clusters.",
+            "url": "blog/2026-04-announcing-loongforge.html"
+        },
+        "zh": {
+            "title": "百度百舸开源全模态训练框架 LoongForge：一套代码跑通 GPU 与昆仑芯，多模态训练提速 45%",
+            "author": "LoongForge 团队",
+            "summary": "百度百舸正式开源多模态训练框架 LoongForge：一套代码覆盖 NVIDIA GPU 与昆仑芯 XPU，主流模型端到端加速 15%~50%，DeepSeek V3.2 提速 4.8 倍，5000+ 卡集群线性扩展效率 90%+。",
+            "url": "blog/2026-04-announcing-loongforge.zh.html"
+        }
+    },
+    {
+        "slug": "2026-05-loongforge-v0.1.0-release",
+        "date": "2026-05-09",
+        "featured": true,
+        "tags_en": [
+            "Release",
+            "v0.1.0"
+        ],
+        "tags_zh": [
+            "发布",
+            "v0.1.0"
+        ],
+        "en": {
+            "title": "LoongForge v0.1.0 Release Notes",
+            "author": "The LoongForge Team",
+            "summary": "First public release of LoongForge. Broad model coverage across LLM/VLM/VLA/Diffusion, Adaptive FP8, MoE optimizations, and native NVIDIA GPU & Kunlun XPU.",
+            "url": "blog/2026-05-loongforge-v0.1.0-release.html"
+        },
+        "zh": {
+            "title": "LoongForge v0.1.0 Release",
+            "author": "LoongForge 团队",
+            "summary": "LoongForge 首个对外版本：LLM/VLM/VLA/Diffusion 四类模态全覆盖，自适应 FP8、MoE 优化，原生支持 NVIDIA GPU 与昆仑 XPU。",
+            "url": "blog/2026-05-loongforge-v0.1.0-release.zh.html"
+        }
+    }
+]

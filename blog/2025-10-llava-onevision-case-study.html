@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>128 GPUs, 4 days: Baidu Baige powers LLaVA-OneVision-1.5's multimodal training record | LoongForge Blog</title>
+  <meta name="description"
+    content="LLaVA-OneVision-1.5 pretrained an 8B multimodal model in 4 days on 128 A800 GPUs, with performance rivaling top-tier large models. The acceleration layer was AIAK-Training-LLM — the predecessor of LoongForge." />
+  <link rel="icon" type="image/svg+xml" href="../assets/img/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link rel="stylesheet" href="../assets/css/style.css" />
+</head>
+
+<body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+
+  <div id="scroll-progress"></div>
+
+  <!-- Shared navbar (rendered by main.js) -->
+  <header data-site-header data-active="blog" data-base="../" data-lang-mode="post"></header>
+
+  <article class="max-w-4xl mx-auto px-6 py-14">
+    <a href="../blog.html" class="text-sm text-indigo-600 dark:text-indigo-300 hover:underline">← Back to blog</a>
+    <div class="mt-6 mb-8">
+      <div class="flex gap-2 mb-4 flex-wrap"><span class="chip">Case Study</span><span class="chip">VLM</span><span
+          class="chip">LLaVA</span></div>
+      <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">128 GPUs, 4 days — Baidu Baige powers
+        LLaVA-OneVision-1.5, a new record in multimodal training efficiency</h1>
+      <div class="text-sm text-gray-500">2025-10-15 · The LoongForge Team</div>
+    </div>
+
+    <div class="prose-lf">
+      <p class="text-gray-500 italic">Editor's note: This article documents how LLaVA-OneVision-1.5 was trained on Baidu
+        Baige's AIAK training framework — the predecessor of LoongForge. LoongForge grew out of real production
+        workloads like this one, and today's multimodal training capabilities — including ViT × LLM heterogeneous
+        parallelism — come directly from the engineering practice described here.</p>
+
+      <p>Training a high-performance vision large model has historically meant high cost and heavy engineering lift. In
+        late September, LLaVA-OneVision-1.5 — released jointly by Inspiration Lab and LMMs-Lab — rewrote that picture.
+      </p>
+
+      <p>This 8B multimodal model, capable of visual understanding and image-text dialogue, completed pretraining in
+        just 4 days on 128 A800 GPUs, while matching top-tier large models on public benchmarks — proving the value of
+        non-brute-force performance gains.</p>
+
+      <p>Behind this breakthrough is not only the high-performance AI infrastructure of Baidu Baige's AI compute
+        platform, but also the AIAK training framework built into the platform — from adapting mainstream model
+        architectures to multi-dimensional distributed-training acceleration, it provides the engineering productivity
+        that makes the model's efficient landing possible.</p>
+
+      <p>Even more notable for the industry: LLaVA-OneVision-1.5 breaks through the "weights-only" limitation of
+        traditional open-source. In the traditional model, releasing only weights is like handing developers a finished
+        black box — there's no visibility into the source and filtering of training data, no clarity on hyperparameters
+        or parallelism strategy, no reference for data cleaning and evaluation. Developers can only "use it," not
+        optimize or iterate on it. They often can't even reproduce the reported performance, let alone innovate on top.
+        Small and mid-sized teams have nowhere to start.</p>
+
+      <p>As one of the first multimodal models in the industry to achieve end-to-end open source, LLaVA-OneVision-1.5
+        fully opens 85M pretraining + 22M instruction data across the full range of scenarios, training configs such as
+        hyperparameters and parallelism strategy, and optimization details including data-cleaning and evaluation logs —
+        plus a one-click reproducible path.</p>
+
+      <p>This kind of openness lets researchers, enterprises, and university teams directly restructure, validate, and
+        extend the model — genuinely turning multimodal AI from "the preserve of giants" into a reusable, innovable
+        public asset for the whole industry.</p>
+
+      <ul>
+        <li>Paper: LLaVA-OneVision-1.5: Fully Open Framework for Democratized Multimodal Training</li>
+        <li>Code: <a href="https://github.com/EvolvingLMMs-Lab/LLaVA-OneVision-1.5" target="_blank"
+            rel="noopener">https://github.com/EvolvingLMMs-Lab/LLaVA-OneVision-1.5</a></li>
+        <li>Tech report: <a href="https://arxiv.org/abs/2509.23661" target="_blank"
+            rel="noopener">https://arxiv.org/abs/2509.23661</a></li>
+        <li>Data / Models: <a
+            href="https://huggingface.co/collections/lmms-lab/llava-onevision-15-68d385fe73b50bd22de23713"
+            target="_blank" rel="noopener">HuggingFace Collection</a></li>
+        <li>Demo: <a href="https://huggingface.co/spaces/lmms-lab/LLaVA-OneVision-1.5" target="_blank"
+            rel="noopener">HuggingFace Space</a></li>
+      </ul>
+
+      <h2>1. LLaVA-OneVision-1.5: high performance at low cost, democratizing multimodal AI with end-to-end open source
+      </h2>
+      <p>LLaVA-OneVision-1.5's lead is not only in metrics. It builds a new "high performance + low cost" paradigm for
+        multimodal models through high-quality data, a clean and efficient architecture, a compact training recipe, and
+        extreme engineering optimization — all amplified by fully open-sourcing the entire pipeline.</p>
+
+      <h3>High-quality data: coverage, balance, and task generalization</h3>
+      <p>An 85M pretraining + 22M instruction data matrix, integrating 8 heterogeneous sources across images, documents,
+        OCR, mathematical reasoning, and more. Concept-balanced sampling supplements rare concepts and removes noise,
+        preventing the model from becoming lopsided and ensuring generalization across modalities and tasks.</p>
+      <p>Both datasets are released alongside the model, so developers don't have to collect and label data from
+        scratch. They can be used directly for training or iteration, removing the classic "no data available" pain
+        point of weights-only releases.</p>
+
+      <h3>A clean, efficient architecture: RICE-ViT visual encoder balances detail perception and training efficiency
+      </h3>
+      <p>The in-house RICE-ViT visual encoder precisely captures fine-grained information such as table cells and small
+        text in documents. Paired with a lightweight vision-language alignment layer, it simplifies the cross-modal
+        fusion path — keeping perception sharp while reducing training load, delivering both accuracy and efficiency.
+      </p>
+      <p>Architecture details and code implementation are part of the open-source release. Unlike weights-only releases
+        where architectural details are opaque, even small and mid-sized teams can now quickly build a multimodal
+        baseline — no need to reinvent complex structures from scratch.</p>
+
+      <h3>A compact three-stage training strategy: grow the model efficiently</h3>
+      <p>A three-stage recipe — "image-text base alignment → balanced knowledge injection → instruction-time
+        reinforcement" — with clear objectives and no redundant iteration. This accelerates the model's growth from
+        "seeing" to "doing" and underpins the low-cost training outcome.</p>
+      <p>Hyperparameters, task split, and iteration cadence of each stage are fully recorded in the open-source scripts.
+        In contrast to traditional weights-only releases where the training process is opaque, developers can reproduce
+        every step, or fine-tune the strategy for their own needs — significantly cutting R&D cycles.</p>
+
+      <h3>Extreme engineering optimization: efficiency as the cost breakthrough</h3>
+      <p>Offline data packing (11x padding compression), hybrid parallelism, and other compute-allocation optimizations
+        let 128 A800 GPUs complete 8B pretraining in just 4 days — evidence that algorithm-engineering co-design can
+        deliver both high performance and low cost.</p>
+      <p>The core tools that enabled this (data packing scripts, parallelism configs, etc.) are all open-sourced. Unlike
+        weights-only releases where engineering know-how can't be reused, developers can apply this playbook directly on
+        their own compute — no need to re-solve the engineering puzzles.</p>
+
+      <h2>2. Baidu Baige AI compute platform: the power source of extreme efficiency</h2>
+      <p>LLaVA-OneVision-1.5's breakthrough was only possible thanks to Baidu Baige's full-stack support — from
+        high-performance AI infrastructure to extreme engineering productivity — providing end-to-end capability from
+        compute to training system, helping teams achieve extreme efficiency within finite budgets.</p>
+
+      <h3>High-performance infrastructure: a stable foundation for large-model training</h3>
+      <p>Training of LLaVA-OneVision-1.5 was hosted on the GPU compute clusters provided by Baige. In the distributed
+        setting of 128 A800 GPUs, Baige's high-bandwidth interconnect and elastic scheduling maximize utilization and
+        throughput, making it realistic for an 8B model to complete full-parameter training on 85M samples in 4 days.
+      </p>
+
+      <h3>Full-pipeline engineering productivity: the AIAK framework accelerates multimodal training</h3>
+      <p>On the training side, the LLaVA-OneVision-1.5 team relied heavily on Baige's AIAK-Training-LLM framework. It
+        fully supports multimodal models across training phases, and through hybrid parallelism,
+        communication-computation overlap, data packing, and other acceleration techniques, it improves training fluency
+        and resource utilization across the board. As a result, LLaVA-OneVision-1.5 saw multi-x improvements in training
+        efficiency and significant cost reduction — a solid foundation for fast iteration.</p>
+
+      <p>AIAK-Training-LLM is built on Megatron. It is a purpose-built AI acceleration toolkit from Baidu Baige for
+        large-model training, designed to help developers run large-scale distributed training efficiently,
+        significantly improving training performance and resource utilization.</p>
+
+      <p>AIAK supports pretraining and fine-tuning for mainstream model scenarios — LLMs, multimodal understanding
+        models, video generation models, etc. — with compatibility across Qwen, LLaMA, DeepSeek, QwenVL, InternVL,
+        QianfanVL, LLaVA-OneVision (LLaVAOV), and Wan families. On top of that, users can flexibly build custom model
+        architectures on AIAK and run training efficiently.</p>
+
+      <p>On the performance side, AIAK is deeply optimized per model structure, shipping hybrid parallelism,
+        communication-computation overlap, cost-effective memory management, FP8 low-precision training, operator
+        fusion, high-performance optimizers, and more. Across model types, MFU (Model FLOPs Utilization) improves by an
+        average of 30%, delivering industry-leading training performance.</p>
+
+      <p>AIAK is deeply integrated into the Baige platform — users can pull prebuilt training images directly. The
+        complete training code and configuration around LLaVA-OneVision-1.5 is fully open-sourced, and more tools and
+        optimizations will keep being released to further lower the bar for large-model R&D.</p>
+
+      <h2>3. Every team can build its own AI model</h2>
+      <p>LLaVA-OneVision-1.5's success is a direct expression of Baidu Baige's "fast, stable, efficient" core value —
+        high-performance AI infrastructure anchors the compute foundation, while extreme engineering productivity
+        connects "data processing → model training → efficiency tuning" end-to-end, cutting training cycles and R&D
+        cost.</p>
+
+      <p>Today, whether you're a resource-constrained research institute, an efficiency-focused enterprise team, or a
+        startup developer exploring innovation, you can spin up AI model R&D on Baige: quickly stand up a
+        high-performance training environment, accelerate multimodal training with the AIAK toolchain, and even reuse
+        the LLaVA-OneVision-1.5 open-source recipe — iterating a custom AI model tailored to your business at controlled
+        cost.</p>
+
+      <p class="text-gray-500 italic text-sm">Note: The AIAK-Training-LLM framework referenced in this article is the
+        predecessor of the now open-source LoongForge. LoongForge carries forward AIAK's core capabilities around ViT ×
+        LLM heterogeneous parallelism, data packing, and communication-computation overlap, and evolves them further for
+        multimodal / embodied scenarios.</p>
+    </div>
+
+    <div
+      class="mt-10 p-5 rounded-xl border border-indigo-200 dark:border-indigo-900/60 bg-indigo-50/60 dark:bg-indigo-950/30 text-sm">
+      📖 <b>Source (WeChat, Chinese):</b> <a href="https://mp.weixin.qq.com/s/1y7Br15pBpUZ-90j5OGncA" target="_blank"
+        rel="noopener" class="text-indigo-700 dark:text-indigo-300 hover:underline break-all">128 卡 4 天时间！百度百舸助力
+        LLaVA-OneVision-1.5 刷新多模态大模型训练效率纪录</a><br />
+      <span class="text-gray-500">Project page: <a href="https://github.com/EvolvingLMMs-Lab/LLaVA-OneVision-1.5"
+          target="_blank" rel="noopener" class="hover:underline">LLaVA-OneVision-1.5 on GitHub</a></span>
+    </div>
+
+    <div class="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 flex items-center justify-between text-sm">
+      <span></span>
+      <a href="2026-04-announcing-loongforge.html" class="text-indigo-600 dark:text-indigo-300 hover:underline">Next:
+        Announcing LoongForge →</a>
+    </div>
+  </article>
+
+  <footer class="border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-center text-xs text-gray-500">© 2026 LoongForge Authors · Apache 2.0
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      const POST_EN = '2025-10-llava-onevision-case-study.html';
+      const POST_ZH = '2025-10-llava-onevision-case-study.zh.html';
+      document.querySelectorAll('[data-post-lang]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = btn.dataset.postLang;
+          try { localStorage.setItem('lf-lang', target); } catch (e) { }
+          location.href = target === 'zh' ? POST_ZH : POST_EN;
+        });
+      });
+      try {
+        const cur = (localStorage.getItem('lf-lang') === 'zh') ? 'zh' : 'en';
+        document.querySelectorAll('[data-post-lang]').forEach(b =>
+          b.classList.toggle('active', b.dataset.postLang === cur)
+        );
+      } catch (e) { }
+    })();
+  </script>
+  <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

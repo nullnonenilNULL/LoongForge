@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <title>About — LoongForge</title>
+  <meta name="description" content="About LoongForge — story, roadmap, license, and acknowledgments." />
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' };</script>
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" />
+</head>
+
+<body class="bg-white text-gray-900 dark:bg-gray-950 dark:text-gray-100">
+
+  <div id="scroll-progress"></div>
+
+  <!-- Shared navbar (rendered by main.js) -->
+  <header data-site-header data-active="about"></header>
+
+  <section class="hero-gradient text-white">
+    <div class="max-w-7xl mx-auto px-6 py-20 text-center relative">
+      <div class="hero-grid absolute inset-0"></div>
+      <div class="relative">
+        <h1 class="text-4xl md:text-5xl font-extrabold mb-3" data-i18n="about.hero.title">About LoongForge</h1>
+        <p class="text-gray-300 max-w-2xl mx-auto" data-i18n="about.hero.desc">A training framework born from
+          real-world, large-scale production workloads — and shared back with the community</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ① Story -->
+  <section class="max-w-5xl mx-auto px-6 py-16 reveal">
+    <h2 class="text-2xl md:text-3xl font-bold mb-4" data-i18n="about.story.title">🐉 Our Story</h2>
+    <div class="prose-lf">
+      <p data-i18n-html="about.story.p1_html">LoongForge didn't start as an open-source project. It grew out of
+        <b>AIAK-Training</b> — Baidu Baige's commercial training acceleration offering delivered to enterprise customers
+        (previously closed-source) — after years of hardening under real production workloads
+      </p>
+      <p data-i18n="about.story.p2">Before going open source, LoongForge was already powering large-scale models in
+        production:</p>
+      <ul>
+        <li data-i18n-html="about.story.li.1_html">Across <b>Education</b>, <b>Computer Vision</b>, and <b>Embodied
+            AI</b>, typically delivering a <b>30%~50% speedup</b> over customer baselines</li>
+        <li data-i18n-html="about.story.li.2_html">Ultra-large cluster training scaling to <b>5,000+ XPUs</b></li>
+      </ul>
+      <p data-i18n-html="about.story.p3_html">It now joins the Baige <b>Loong</b> open-source series — named after the
+        traditional Chinese <b>loong boat (龙舟)</b>, a symbol of coordinated power and forward momentum. Sister
+        project: <a class="text-indigo-600 underline" href="https://github.com/baidu-baige/LoongFlow" target="_blank"
+          rel="noopener">LoongFlow</a> — <i>A Thinking &amp; Learning Framework for Expert-Grade AI Agents</i></p>
+    </div>
+  </section>
+
+  <!-- ② Horizon -->
+  <section class="bg-gray-50 dark:bg-gray-900/50 border-y border-gray-200 dark:border-gray-800">
+    <div class="max-w-5xl mx-auto px-6 py-16 reveal">
+      <div class="mb-8">
+        <h2 class="text-2xl md:text-3xl font-bold mb-3" data-i18n="about.horizon.title">🧭 On the Horizon</h2>
+        <p class="text-gray-600 dark:text-gray-400" data-i18n="about.horizon.lead">A glimpse of what
+          is next</p>
+      </div>
+      <div class="rounded-2xl p-6 md:p-8 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+        <ul class="grid md:grid-cols-2 gap-x-8 gap-y-4 text-sm">
+          <li class="flex gap-3"><span>📦</span><span data-i18n="about.horizon.1">Continuous coverage of frontier
+              foundation models</span></li>
+          <li class="flex gap-3"><span>🤖</span><span data-i18n="about.horizon.2">Deeper investment in Embodied AI
+              training capabilities</span></li>
+          <li class="flex gap-3"><span>⚡</span><span data-i18n="about.horizon.3">Ongoing training-performance
+              optimization driven by real-world workloads</span></li>
+          <li class="flex gap-3"><span>💎</span><span data-i18n="about.horizon.4">Continued enhancement and optimization
+              of Kunlun XPU support</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ③ License & Citation -->
+  <section class="max-w-5xl mx-auto px-6 py-16 reveal">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6" data-i18n="about.license.title">📄 License &amp; Citation</h2>
+    <div class="grid md:grid-cols-2 gap-5">
+      <div class="rounded-2xl p-6 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+        <h3 class="font-semibold mb-2" data-i18n="about.license.heading">License</h3>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-0" data-i18n-html="about.license.body_html">LoongForge
+          is released under the <a href="https://github.com/baidu-baige/LoongForge/blob/master/LICENSE" target="_blank"
+            class="text-indigo-600 underline">Apache License 2.0</a>. Some files are derived from third-party
+          open-source projects — please consult file headers for their specific notices</p>
+      </div>
+      <div class="rounded-2xl p-6 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800">
+        <h3 class="font-semibold mb-2" data-i18n="about.cite.heading">Citation</h3>
+        <pre class="cite-pre"><code class="language-bash">@software{LoongForge2026,
+  title  = {LoongForge: A modular, scalable, high-performance training framework for LLMs, VLMs, diffusion, and embodied models},
+  author = {{The LoongForge Authors}},
+  year   = {2026},
+  url    = {https://github.com/baidu-baige/LoongForge}
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ④ Acknowledgments -->
+  <section class="bg-gray-50 dark:bg-gray-900/50 border-y border-gray-200 dark:border-gray-800">
+    <div class="max-w-5xl mx-auto px-6 py-16 reveal">
+      <h2 class="text-2xl md:text-3xl font-bold mb-3" data-i18n="about.ack.title">🙏 Acknowledgments</h2>
+      <p class="text-sm text-gray-600 dark:text-gray-400" data-i18n="about.ack.body">LoongForge is
+        built upon NVIDIA's Megatron-LM. We also referenced and drew inspiration from excellent open-source projects
+        including Transformers, LLaMA-Factory, and Megatron-Bridge. We sincerely thank these communities for their
+        outstanding contributions</p>
+    </div>
+  </section>
+
+  <footer class="border-t border-gray-200 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-6 py-8 text-center text-xs text-gray-500">© 2026 LoongForge Authors · Apache 2.0
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Redirecting to LoongForge Docs…</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  <meta name="robots" content="noindex,follow" />
+  <meta http-equiv="refresh" content="2; url=https://loongforge.readthedocs.io/en/latest/index.html" />
+  <link rel="canonical" href="https://loongforge.readthedocs.io/en/latest/index.html" />
+  <style>
+    body {
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      background: linear-gradient(180deg, #0B1020, #111827);
+      color: #E5E7EB;
+      text-align: center;
+      padding: 2rem
+    }
+
+    a {
+      color: #A5B4FC
+    }
+  </style>
+</head>
+
+<body>
+  <div>
+    <h1 style="font-size:1.4rem;margin:0 0 .5rem">📚 Redirecting to the LoongForge docs…</h1>
+    <p>If you aren't redirected automatically, <a href="https://loongforge.readthedocs.io/en/latest/index.html">click
+        here</a>.</p>
+  </div>
+  <script>
+    (function () {
+      var saved = (function () { try { return localStorage.getItem('lf-lang'); } catch (e) { return null; } })();
+      var nav = (navigator.language || '').toLowerCase();
+      var lang = saved === 'zh' || saved === 'en' ? saved : (nav.indexOf('zh') === 0 ? 'zh' : 'en');
+      var target = lang === 'zh'
+        ? 'https://loongforge.readthedocs.io/zh-cn/latest/index.html'
+        : 'https://loongforge.readthedocs.io/en/latest/index.html';
+      location.replace(target);
+    })();
+  </script>
+</body>
+
+</html>

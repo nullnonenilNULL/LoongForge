@@ -19,6 +19,7 @@ extended_alpaca:
     query: input
     response: output
     history: history
+    system: system
 
 sharegpt:
   format: sharegpt

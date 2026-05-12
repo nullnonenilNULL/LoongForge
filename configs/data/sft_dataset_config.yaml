@@ -12,6 +12,14 @@ alpaca:
     query: input
     response: output
 
+extended_alpaca:
+  format: alpaca
+  columns:
+    prompt: instruction
+    query: input
+    response: output
+    history: history
+
 sharegpt:
   format: sharegpt
   columns:

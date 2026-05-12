@@ -39,6 +39,7 @@ def loongforge_extra_train_args_provider(parser: argparse.ArgumentParser):
     parser = _add_log_tensor_args(parser)
     # Rice-VL specific arguments
     parser = _add_extra_training_rice_vl_args(parser)
+    parser = _add_extra_bridge_args(parser)
 
     return parser
 
@@ -196,6 +197,28 @@ def _add_extra_training_rice_vl_args(parser: argparse.ArgumentParser) -> argpars
         default=4096,
         help="Maximum character length allowed for answers during Rice-VL training. "
              "Answers exceeding this length will be truncated. Default: 4096"
+    )
+    return parser
+
+
+# =============================================================================
+# Bridge bridge Arguments
+# =============================================================================
+def _add_extra_bridge_args(parser):
+    """Add bridge arguments"""
+    group = parser.add_argument_group(title='extra-bridge')
+
+    # Arguments for defining manner of converting FP8 checkpoint
+    group.add_argument('--fp8_force_no_requant', action='store_true',
+                       help=("If enabled, in converting FP8 checkpoint, skip the `dequantize + re-quantize`, "
+                             "directly chunk/concate the quantized data.")
+    )
+    group.add_argument('--force_pow_2_scales', action='store_true',
+                       help=("Define whether to force destination checkpoint's scale to be power-of-two.")
+    )
+    group.add_argument('--amax_epsilon', type=float, default=0.0,
+                       help=("Epsilon value added to the amax calculation to avoid divised by zero "
+                             "when converting to FP8. Only used in Transformer Engine FP8 conversion.")
     )
     return parser
 

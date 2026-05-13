@@ -34,7 +34,7 @@
 
 **LoongForge** is a unified training framework for **LLMs, VLMs, VLAs, and diffusion models**, covering **pre-training**, **continued pre-training**, and **SFT**. Built upon Megatron-LM with deep systemic enhancements across **model coverage**, **training performance**, and **hardware support**, it delivers **significant speedups over mainstream open-source baselines**.
 
-Before going open-source, LoongForge was developed as **AIAK-Training**, Baidu Baige's training acceleration stack. It has supported production training for enterprise customers across **Education**, **Computer Vision**, and **Embodied AI**, typically delivering **30%~50% speedup over customer baselines**, with the largest production runs reaching **5,000+ XPUs**.
+Before going open-source, LoongForge was developed as **AIAK-Training-LLM**, Baidu Baige's training acceleration stack. It has supported production training for enterprise customers across **Education**, **Computer Vision**, and **Embodied AI**, typically delivering **30%~50% speedup over customer baselines**, with the largest production runs reaching **5,000+ XPUs**.
 
 ## 🔥 Latest News
 
@@ -42,7 +42,8 @@ Before going open-source, LoongForge was developed as **AIAK-Training**, Baidu B
 - **[2026/05]** 🌟 Powered the training and public release of **LLaVA-OneVision-2.0**.
 - **[2026/05]** 🤖 Expanded VLA coverage with **GR00T N1.6**; **60%+ speedup** on Pi0.5 and GR00T training.
 - **[2026/04]** 🧩 Added training support for **MiniMax-M2.7** on both NVIDIA GPU and Kunlun XPU.
-- **[2026/04]** 🚀 LoongForge source code publicly available on GitHub.
+- **[2026/04]** 🚀 LoongForge source code publicly available on GitHub. [[blog]](https://baidu-baige.github.io/LoongForge/blog/2026-04-announcing-loongforge.html)
+- **[2025/10]** 🌟 Powered the training and public release of **LLaVA-OneVision-1.5** under **AIAK-Training-LLM**, the predecessor of LoongForge. [[blog]](https://baidu-baige.github.io/LoongForge/blog/2025-10-llava-onevision-case-study.html)
 
 ## ⚡ Quick Start
 

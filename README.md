@@ -76,13 +76,13 @@ See the full documentation for installation, tutorials, and advanced usage — [
 
 ## 📊 Benchmark
 
-Measured in v0.1.0 across LLM, VLM, and VLA workloads against mainstream open-source training baselines:
+Measured on the master branch across LLM, VLM, and VLA workloads against mainstream open-source training baselines:
 
 | Model | Type | Baseline | Configuration | Speedup |
 |---|---|---|---|---|
 | Qwen3-30B-A3B | MoE | Megatron-LM<sup>†</sup> | 32 × A800<sup>‡</sup> · GBS 1024 · 32K | **1.16×** |
 | Qwen3-VL-30B-A3B | VLM | VeOmni<sup>†</sup> | 32 × A800<sup>‡</sup> · GBS 128 · 32K | **1.45×** |
-| GR00T N1.6 | VLA | LeRobot<sup>†</sup> | 8 × A800<sup>‡</sup> · GBS 128 · 224×224 | **1.60×** |
+| GR00T N1.6 | VLA | LeRobot<sup>†</sup> | 8 × A800<sup>‡</sup> · GBS 128 · 224×224 | **2.31×** |
 | Pi0.5 | VLA | OpenPI<sup>†</sup> | 8 × A800<sup>‡</sup> · GBS 112 · 224×224 | **1.65×** |
 
 Due to test-bed scale limits, **DeepSeek-V3.2** was validated separately on a reduced-layer configuration — LoongForge's **DSA operator-level optimizations** still deliver **~5× speedup** over Megatron-LM and reach **64K sequence** (baseline OOMs beyond 8K).

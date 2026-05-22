@@ -63,19 +63,18 @@ from loongforge.utils.global_vars import get_model_config
 stimer = StragglerDetector()
 
 
+def _batch_has_non_dummy_value(data, key):
+    """True iff `data[key]` carries non-dummy content."""
+    v = data.get(key) if data is not None else None
+    if torch.is_tensor(v):
+        return v.numel() > 1
+    if isinstance(v, (list, tuple)):
+        return bool(v)
+    return v is not None
+
+
 def get_batch_on_this_tp_rank(data_iterator):
     """Get the current micro-batch on this rank."""
-    model_config = get_model_config()
-    IMAGE_TOKEN_ID = getattr(
-        getattr(model_config, "image_encoder", None), 
-        "image_token_id", 
-        151655
-    )
-    VIDEO_TOKEN_ID = getattr(
-        getattr(model_config, "image_encoder", None),
-        "video_token_id",
-        151656
-    )
     if data_iterator is not None and mpu.get_tensor_model_parallel_rank() == 0:
         data = next(data_iterator)
         # Check if iterator is exhausted (data is None)
@@ -92,8 +91,21 @@ def get_batch_on_this_tp_rank(data_iterator):
     loss_mask = tensor_parallel.broadcast_data(["loss_mask"], data, torch.int64)["loss_mask"]
     attn_mask = tensor_parallel.broadcast_data(["attn_mask"], data, torch.bool)["attn_mask"]
 
-    has_video = bool((tokens == VIDEO_TOKEN_ID).any())
-    has_image = bool((tokens == IMAGE_TOKEN_ID).any())
+    # Rank 0 probes the batch; broadcast a 2-bit flag so every TP rank agrees
+    # before the optional image/video broadcasts.
+    tp_src = mpu.get_tensor_model_parallel_src_rank()
+    tp_group = mpu.get_tensor_model_parallel_group()
+    if mpu.get_tensor_model_parallel_rank() == 0:
+        modality_flag = torch.tensor(
+            [int(_batch_has_non_dummy_value(data, "imgs")),
+             int(_batch_has_non_dummy_value(data, "pixel_values_videos"))],
+            dtype=torch.int32, device="cuda",
+        )
+    else:
+        modality_flag = torch.zeros(2, dtype=torch.int32, device="cuda")
+    torch.distributed.broadcast(modality_flag, src=tp_src, group=tp_group)
+    has_image = bool(modality_flag[0].item())
+    has_video = bool(modality_flag[1].item())
 
     images = None
     image_grid_thw = None

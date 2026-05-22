@@ -6,6 +6,7 @@
 import os
 import tempfile
 from dataclasses import dataclass
+from math import gcd
 from typing import Any, Dict, Optional, Tuple
 
 import torch
@@ -28,7 +29,47 @@ IGNORE_INDEX = constants.IGNORE_INDEX
 PAD_TOKEN_ID = 151643
 
 
-def seq_padding_for_cp(data, tp_size=1, cp_size=1, has_sp=False):
+def _lcm(lhs, rhs):
+    return lhs * rhs // gcd(lhs, rhs)
+
+
+def _sequence_padding_factor(tp_size=1, cp_size=1, has_sp=False):
+    if has_sp and cp_size > 1:
+        return tp_size * cp_size * 2
+    if cp_size > 1:
+        return cp_size * 2
+    if has_sp:
+        return tp_size
+    return 1
+
+
+def _fp8_padding_factor(fp8_recipe=None):
+    if fp8_recipe == "mxfp8":
+        return 32
+    if fp8_recipe == "blockwise":
+        return 128
+    return 16
+
+
+def _needs_packed_alignment(args):
+    return args.packing_sft_data and (
+        args.context_parallel_size > 1
+        or args.sequence_parallel
+        or (
+            bool(getattr(args, "fp8", None))
+            and getattr(args, "fp8_recipe", None) == "blockwise"
+        )
+    )
+
+
+def seq_padding_for_cp(
+    data,
+    tp_size=1,
+    cp_size=1,
+    has_sp=False,
+    fp8_enabled=False,
+    fp8_recipe=None,
+):
     """Sequence padding for CP and/or SP
 
     Args:
@@ -36,6 +77,8 @@ def seq_padding_for_cp(data, tp_size=1, cp_size=1, has_sp=False):
         tp_size (int): Tensor parallel size.
         cp_size (int): Context parallel size.
         has_sp (bool): Model uses sequence parallelism.
+        fp8_enabled (bool): Model uses FP8 execution.
+        fp8_recipe (str): FP8 recipe. Affects required padding.
 
     Returns:
         data (dict): Padded data.
@@ -54,6 +97,7 @@ def seq_padding_for_cp(data, tp_size=1, cp_size=1, has_sp=False):
     seq_lengths = cu_lengths[0, 1:] - cu_lengths[0, :-1]
     start = 0
     for length in seq_lengths:
+        length = int(length)
         token = tokens[0, start : start + length]
         label = labels[0, start : start + length]
         mask = attn_mask[0, start : start + length]
@@ -76,11 +120,37 @@ def seq_padding_for_cp(data, tp_size=1, cp_size=1, has_sp=False):
 
         start += length
 
+    final_padding_factor = _sequence_padding_factor(tp_size, cp_size, has_sp)
+    if fp8_enabled:
+        fp8_padding_factor = _fp8_padding_factor(fp8_recipe)
+        if has_sp:
+            fp8_padding_factor *= tp_size
+        final_padding_factor = _lcm(final_padding_factor, fp8_padding_factor)
+
+    final_padding_needed = (
+        int(
+            (cu_seqlens_padded[-1] + final_padding_factor - 1)
+            // final_padding_factor
+            * final_padding_factor
+        )
+        - cu_seqlens_padded[-1]
+    )
+
+    if final_padding_needed > 0 and valid_tokens:
+        valid_tokens[-1] = F.pad(
+            valid_tokens[-1], (0, final_padding_needed), "constant", PAD_TOKEN_ID
+        )
+        valid_labels[-1] = F.pad(
+            valid_labels[-1], (0, final_padding_needed), "constant", IGNORE_INDEX
+        )
+        valid_attn_mask[-1] = F.pad(
+            valid_attn_mask[-1], (0, final_padding_needed), "constant", True
+        )
+        cu_seqlens_padded[-1] += final_padding_needed
+
     data["tokens"] = torch.cat(valid_tokens, dim=0).unsqueeze(0).to(tokens.dtype)
     data["labels"] = torch.cat(valid_labels, dim=0).unsqueeze(0).to(labels.dtype)
-    data["attn_mask"] = (
-        torch.cat(valid_attn_mask, dim=0).unsqueeze(0).to(attn_mask.dtype)
-    )
+    data["attn_mask"] = torch.cat(valid_attn_mask, dim=0).unsqueeze(0).to(attn_mask.dtype)
 
     data["cu_lengths"] = torch.tensor(
         cu_seqlens_padded, dtype=cu_lengths.dtype
@@ -111,14 +181,14 @@ class VLMPretrainCollator:
         batch = self._ensure_tensor(batch)
         self._pad_sequences(batch)
         args = get_args()
-        if args.packing_sft_data and (
-            args.context_parallel_size > 1 or args.sequence_parallel
-        ):
+        if _needs_packed_alignment(args):
             seq_padding_for_cp(
                 batch,
                 tp_size=args.tensor_model_parallel_size,
                 cp_size=args.context_parallel_size,
                 has_sp=args.sequence_parallel,
+                fp8_enabled=bool(getattr(args, "fp8", None)),
+                fp8_recipe=getattr(args, "fp8_recipe", None),
             )
         self._build_masks_and_positions(batch)
         return batch

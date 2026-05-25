@@ -198,7 +198,7 @@ calc_load<sub>dp</sub> = a·∑<sub>i</sub> len(sample<sub>i</sub>)²
 固定**张量并行 = 4**，InternVL 在 *** 数据集上。
 平均 token / GPU / 秒（TGS）与 DP 规模的关系：
 
-![Average TGS vs. DP size with and without data reorganization](../../../assets/images/dp_balancing.png)
+![Average TGS vs. DP size with and without data reorganization](../../assets/images/dp_balancing.png)
 
 * **小规模 DP（4 / 8 / 16）**
   – 无论是否重排序：TGS 几乎相同 → 不均衡可忽略。

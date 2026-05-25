@@ -37,7 +37,7 @@ export CUDA_DEVICE_MAX_CONNECTIONS=32
 然而，1F1B A2A 重叠策略依赖于相邻批次的逐模块交织，使得传统的全层重计算不兼容。
 
 为解决此问题，框架引入了**模块级选择性重计算加细粒度激活卸载**，在保留重叠调度的同时近似全层重计算的内存节省（见图）。
-![offload_stream](../../../assets/images/offload.png)
+![offload_stream](../../assets/images/offload.png)
 
 ### 特性
 * 激活卸载与重新加载隐藏在计算之后

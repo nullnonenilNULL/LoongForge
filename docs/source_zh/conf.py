@@ -1,5 +1,7 @@
+# Copyright 2026 The LoongForge Authors.
+# SPDX-License-Identifier: Apache-2.0
 import os, sys
-sys.path.insert(0, os.path.abspath('../../..'))
+sys.path.insert(0, os.path.abspath('../..'))
 
 
 project = 'LoongForge'
@@ -17,7 +19,7 @@ extensions = [
 templates_path = ['_templates']
 exclude_patterns = []
 
-language = 'zh'
+language = 'zh_CN'
 
 autosummary_generate = True
 autodoc_default_options = {
@@ -51,7 +53,7 @@ html_theme_options = {
     "repository_url": "https://github.com/baidu-baige/LoongForge",
     "use_repository_button": True,
 }
-html_static_path = ['../_static']
+html_static_path = ['../source/_static']
 html_css_files = [
     "custom.css",
 ]

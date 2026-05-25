@@ -69,9 +69,9 @@ export OMP_NUM_THREADS=8
 ## 4. 低精度优化器性能调优
 我们提供了 TransformerEngine 低精度优化器的优化版本（仅 BF16）。
 *原始 TE 步长时间 ≈ 1.34 s*
-![origin_te](../../../assets/images/ori_te_optimizer.png)
+![origin_te](../../assets/images/ori_te_optimizer.png)
 *优化后步长时间 ≈ 358 ms*
-![after_opt](../../../assets/images/now_optimizer.png)
+![after_opt](../../assets/images/now_optimizer.png)
 
 使用低精度优化器时，快速路径会自动启用。
 如需强制使用原始 TE 实现：

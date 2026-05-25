@@ -14,8 +14,8 @@
 
 <p align="center">
 
-[![English](https://img.shields.io/badge/English-Latest-blue?style=for-the-badge&logo=readthedocs)](https://loongforge.readthedocs.io/en/latest/index.html)
-[![中文](https://img.shields.io/badge/%E4%B8%AD%E6%96%87-Latest-blue?style=for-the-badge&logo=readthedocs)](https://loongforge.readthedocs.io/zh-cn/latest/index.html)
+[![Docs](https://img.shields.io/badge/Docs-Latest-blue?style=for-the-badge&logo=readthedocs)](https://loongforge.readthedocs.io/en/latest/index.html)
+[![Blog](https://img.shields.io/badge/Blog-Visit-FF6B35.svg?style=for-the-badge)](https://baidu-baige.github.io/LoongForge/blog/)
 [![License](https://img.shields.io/github/license/baidu-baige/LoongForge.svg?style=for-the-badge&logo=github)](https://github.com/baidu-baige/LoongForge/blob/master/LICENSE)
 [![Slack](https://img.shields.io/badge/Slack-Join-4A154B.svg?style=for-the-badge&logo=slack)](https://join.slack.com/t/baiduloongforge/shared_invite/zt-3ys3kaq2p-cmdw0nDoaHGOcKibgys5Yw)
 [![WeChat](https://img.shields.io/badge/WeChat-Join-07C160.svg?style=for-the-badge&logo=wechat)](#contact)
@@ -39,8 +39,8 @@ Before going open-source, LoongForge was developed as **AIAK-Training-LLM**, Bai
 
 ## 🔥 Latest News
 
-- **[2026/05]** ✨ Added training support for **Kimi K2.5 / K2.6**, and introduced **NVFP4** PTQ quantization.
-- **[2026/05]** ⚡ Accelerated **Wan 2.2** training by **130%**, and added context parallelism (CP) and data packing support.
+- **[2026/05]** ✨ Added training support for **Kimi K2.5 / K2.6**, and introduced **INT4 / NVFP4** PTQ.
+- **[2026/05]** ⚡ Accelerated **Wan 2.2** training by **130%**, and added CP and data packing support.
 - **[2026/05]** 🎉 **v0.1.0** — first official tagged release of LoongForge.
 - **[2026/05]** 🌟 Powered the training and public release of **LLaVA-OneVision-2.0**.
 - **[2026/05]** 🤖 Expanded VLA coverage with **GR00T N1.6**; **60%+ speedup** on Pi0.5 and GR00T training.
@@ -65,9 +65,9 @@ See the full documentation for installation, tutorials, and advanced usage — [
 ## ✨ Key Features
 
 * **🧩 Flexible Multi-Modal Composition** — Configuration-driven assembly of VLMs from interchangeable ViT and LLM components.
-* **⚡ Heterogeneous Parallelism** — Independent TP / DP / recompute per model component (e.g., ViT vs. LLM) for optimal throughput and memory.
+* **⚡ Heterogeneous Parallelism** — Independent TP / DP / recompute per model component (e.g., ViT vs. LLM) for optimal throughput and memory. [[blog](https://baidu-baige.github.io/LoongForge/blog/2026-05-loongforge-heterogeneous-parallel-training.html)]
 * **🔀 Decoupled Encoder-Decoder Training** — Separates ViT and LLM into independent tasks, eliminating encoder-induced pipeline bubbles.
-* **⚖️ DP Load Balancing** — Load-aware data redistribution mitigates sequence-packing imbalance, improving multi-node scaling efficiency.
+* **⚖️ DP Load Balancing** — Load-aware data redistribution mitigates sequence-packing imbalance, improving multi-node scaling efficiency. [[blog](https://baidu-baige.github.io/LoongForge/blog/2026-05-loongforge-dp-load-balancing.html)]
 * **🚀 MoE-Native Optimization** — Overlapped All2All / activation offload / compute, with **further memory reduction** beyond upstream Megatron-LM on DeepSeek-V3, Qwen3-MoE, etc.
 * **🔬 Adaptive FP8 Training** — End-to-end FP8 for LLMs and VLMs with standard **blockwise FP8**; optional **adaptive** mode picks per-operator precision by GEMM shape and efficiency.
 * **🔧 Custom Fused Operators** — Fused kernels like **FusedDSA** for DSA-style models — TileLang version open-sourced, high-performance CUDA version available on Baidu Baige platform.

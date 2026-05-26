@@ -24,7 +24,8 @@ import logging
 import math
 from collections import deque
 from pathlib import Path
-from typing import TYPE_CHECKING, Literal, TypedDict, Unpack
+from typing import TYPE_CHECKING, Literal, TypedDict
+from typing_extensions import Unpack
 
 import torch
 import torch.nn.functional as F  # noqa: N812
@@ -494,22 +495,22 @@ class PaliGemmaWithExpertModel(nn.Module):
             if name in param_dict and param_dict[name] is not None:
                 param_dict[name].data = param_dict[name].data.to(dtype=torch.float32)
         # Fix inv_freq: GemmaRotaryEmbedding.inv_freq is persistent=False and not saved in
-        # checkpoints. Float16Module.bfloat16() converts all buffers including inv_freq, but
-        # if inv_freq somehow ends up all-zero (e.g. meta-device init without materialization),
-        # RoPE becomes an identity transform and positional information is lost.
+        # checkpoints. After init_model_with_meta_device + to_empty_if_meta_device, inv_freq
+        # contains uninitialized garbage (not all-zero). Always reinitialize from config
+        # when the tensor is on a real device (not meta).
         for module in self.modules():
             if type(module).__name__ == 'GemmaRotaryEmbedding' and hasattr(module, 'inv_freq'):
                 inv_freq = module.inv_freq
                 if inv_freq.device.type == 'meta':
                     continue  # not yet materialized; fix will run after to_empty_if_meta_device
-                if not inv_freq.any().item():
-                    new_inv_freq, _ = type(module).compute_default_rope_parameters(
-                        module.config, device=module.inv_freq.device
-                    )
-                    # Cast to match the current model dtype (bfloat16 after Float16Module wraps).
-                    new_inv_freq = new_inv_freq.to(dtype=module.inv_freq.dtype)
-                    module.register_buffer('inv_freq', new_inv_freq, persistent=False)
-                    module.register_buffer('original_inv_freq', new_inv_freq.clone(), persistent=False)
+                # Always reinitialize: after to_empty_if_meta_device, inv_freq has garbage values
+                # that may not be all-zero, but are still wrong.
+                new_inv_freq, _ = type(module).compute_default_rope_parameters(
+                    module.config, device=module.inv_freq.device
+                )
+                new_inv_freq = new_inv_freq.to(dtype=module.inv_freq.dtype)
+                module.register_buffer('inv_freq', new_inv_freq, persistent=False)
+                module.register_buffer('original_inv_freq', new_inv_freq.clone(), persistent=False)
         self._tie_paligemma_language_weights()
         return self
 

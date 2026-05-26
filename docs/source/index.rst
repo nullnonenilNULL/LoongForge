@@ -49,7 +49,7 @@ A modular, scalable, and highly efficient training framework for language, multi
    :maxdepth: 1
    :caption: Diffusion Training
 
-   wan_tutorial/quick_start_wan_training
+   wan_tutorial/index
 
 .. toctree::
    :maxdepth: 1

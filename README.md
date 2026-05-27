@@ -79,19 +79,21 @@ See the full documentation for installation, tutorials, and advanced usage — [
 
 ## 📊 Benchmark
 
-Measured on the master branch across LLM, VLM, and VLA workloads against mainstream open-source training baselines:
+Measured on **v0.1.1** across LLM, VLM, and VLA workloads against mainstream open-source training baselines:
 
 | Model | Type | Baseline | Configuration | Speedup |
 |---|---|---|---|---|
 | Qwen3-30B-A3B | MoE | Megatron-LM<sup>†</sup> | 32 × A800<sup>‡</sup> · GBS 1024 · 32K | **1.16×** |
+| DeepSeek-V3.2 Lite <sup>§</sup> | MoE + DSA | Megatron-LM<sup>†</sup> | Reduced-layer · GBS 128 · 8K | **5.04×** |
 | Qwen3-VL-30B-A3B | VLM | VeOmni<sup>†</sup> | 32 × A800<sup>‡</sup> · GBS 128 · 32K | **1.45×** |
 | GR00T N1.6 | VLA | LeRobot<sup>†</sup> | 8 × A800<sup>‡</sup> · GBS 128 · 224×224 | **2.31×** |
 | Pi0.5 | VLA | OpenPI<sup>†</sup> | 8 × A800<sup>‡</sup> · GBS 112 · 224×224 | **1.65×** |
+| Wan2.2 | DIT | DiffSynth<sup>†</sup> | 8 × A800<sup>‡</sup> · 480×832x49 | **2.16×** |
 
-Due to test-bed scale limits, **DeepSeek-V3.2** was validated separately on a reduced-layer configuration — LoongForge's **DSA operator-level optimizations** still deliver **~5× speedup** over Megatron-LM and reach **64K sequence** (baseline OOMs beyond 8K).
-
+> <sup>§</sup> Due to test-bed scale limits, **DeepSeek-V3.2** was validated separately on a reduced-layer configuration — LoongForge's **DSA CUDA kernel optimizations** still deliver **~5× speedup** over Megatron-LM and reach **64K sequence** (baseline OOMs beyond 8K).<br>
 > <sup>†</sup> Numbers reflect baseline and LoongForge versions at the time of measurement, and may evolve as implementations change.<br>
-> <sup>‡</sup> Validation on additional hardware is rolling out in upcoming releases.
+> <sup>‡</sup> Validation on additional hardware is rolling out in upcoming releases.<br>
+
 
 ## 🌟 Powered by LoongForge
 
@@ -213,7 +215,8 @@ LoongForge is built upon NVIDIA's Megatron-LM. We also drew inspiration from sev
 
 Open a GitHub issue for questions, feedback, or feature requests. You can also [join our Slack community](https://join.slack.com/t/baiduloongforge/shared_invite/zt-3ys3kaq2p-cmdw0nDoaHGOcKibgys5Yw) or scan the WeChat QR code below to join our developer community.
 
-<img width="377" alt="LoongForge WeChat Community" src="https://github.com/user-attachments/assets/8d1660ed-5c94-423d-bfb0-f501aee63346" />
+<img width="377" alt="LoongForge WeChat Community" src="https://github.com/user-attachments/assets/4c69c950-f2e7-4b5e-bc9a-ffe0ebf09760" />
+
 
 
 

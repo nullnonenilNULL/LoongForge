@@ -63,17 +63,17 @@ DATA_PATH=${DATA_PATH:-"/workspace/libero/"}
 TOKENIZER_PATH=${TOKENIZER_PATH:-"/workspace/paligemma-3b-pt-224/"}
 CHECKPOINT_PATH=${CHECKPOINT_PATH:-"/workspace/ckpt/"}
 
-export XMLIR_ENABLE_FAST_FC=true         # Used in torch.nn.linear.py (e.g., LinearWithActFunction)
-export XMLIR_MATMUL_FAST_MODE=1          # Accumulation acceleration for XBLAS fully-connected (FC) computation under BF16 precision
-export XMLIR_ENABLE_LINEAR_FC_FUSION=1   # Allows linear layers to bypass XBLAS FC fusion in certain scenarios (e.g., using addmm instead), default value is 1
-export XMLIR_PARALLEL_SAVE_MEMORY=false  # When set to false, GPU memory usage increases but performance is improved; when set to true, memory usage decreases but performance drops
-export XDNN_USE_FAST_GELU=true           # High-precision implementation of the GELU operator
-export BKCL_FORCE_SYNC=1                 # Force CPU synchronization before communication (this will reduce performance)
-export BKCL_TREE_THRESHOLD=0             # Set to 0 to disable the tree algorithm
-export BKCL_ENABLE_XDR=1                 # Enable XDR (XPU Direct RDMA) and direct RDMA. Traffic will then flow directly from the XPU to the RDMA NIC, which is required for multi-node training.
-export BKCL_RDMA_VERBS=1                 # Used in conjunction with BKCL_QPS_PER_CONNECTION; only required for Hygon servers currently
-export BKCL_RDMA_NICS=eth1,eth1,eth2,eth2,eth3,eth3,eth4,eth4   # Subject to actual conditions; for multi-node training, configure according to the NIC connectivity of the server environment
-export XTE_USE_MULTI_TENSOR_ADAMW=True   # Align the Adam optimizer with the GPU multi_tensor_adamw implementation
+export XMLIR_ENABLE_FAST_FC=true         # Used in torch.nn.linear.py (LinearWithActFunction, etc.)
+export XMLIR_MATMUL_FAST_MODE=1          # Accelerate xblas fc computation accumulation under bf16
+export XMLIR_ENABLE_LINEAR_FC_FUSION=1   # Allow linear to bypass xblas fcfusion in certain scenarios, e.g., use addmm; default is 1
+export XMLIR_PARALLEL_SAVE_MEMORY=false  # false: higher memory usage but better performance; true: lower memory usage but reduced performance
+export XDNN_USE_FAST_GELU=true           # High-precision gelu operator implementation
+export BKCL_FORCE_SYNC=1                 # Force CPU synchronization before communication; reduces performance
+export BKCL_TREE_THRESHOLD=0             # Set to 0 to disable tree algorithm
+export BKCL_ENABLE_XDR=1                 # Enable XDR (XPU direct RDMA); enables direct RDMA from XPU to RDMA NIC, required for multi-node training
+export BKCL_RDMA_VERBS=1                 # Used together with BKCL_QPS_PER_CONNECTION; currently only needed for Hygon machines
+export BKCL_RDMA_NICS=eth1,eth1,eth2,eth2,eth3,eth3,eth4,eth4   # Adjust based on actual environment; configure according to NIC connectivity for multi-node setup
+export XTE_USE_MULTI_TENSOR_ADAMW=True   # Optimizer adam aligned with GPU multi_tensor_adamw implementation
 
 # Distributed launch (defaults single node)
 GPUS_PER_NODE=${GPUS_PER_NODE:-8}
@@ -101,18 +101,16 @@ DATA_ARGS=(
 
 # Core training args — pi05 trainer only needs minimal Megatron flags
 TRAINING_ARGS=(
-    --use-megatron-fsdp
-    --data-parallel-sharding-strategy optim
     --training-phase sft
-    --micro-batch-size 16
-    --global-batch-size 128
-    --train-iters 30000
+    --micro-batch-size 12
+    --global-batch-size 96
+    --train-iters 50
     --seq-length 762
     --max-position-embeddings 762
     --tensor-model-parallel-size 1
     --pipeline-model-parallel-size 1
     --no-masked-softmax-fusion
-    --ckpt-format fsdp_dtensor
+    --ckpt-format torch
     --load $CHECKPOINT_PATH
     --no-load-optim
     --no-load-rng
@@ -127,27 +125,37 @@ TRAINING_ARGS=(
     --adam-eps 1e-8
     --adam-beta2 0.95
     --weight-decay 0.01
-    --no-strict-fsdp-dtensor-load
     --finetune
     --bf16
-    --grad-reduce-in-bf16
+    --init-model-with-meta-device
     --use-precision-aware-optimizer
-    --main-grads-dtype bf16
+    --exp-avg-dtype bf16
+    --exp-avg-sq-dtype bf16
     --num-distributed-optimizer-instances 1
     --save $CHECKPOINT_PATH
-    --save-interval 30000
+    --save-interval 30
+    --optimizer-cpu-offload
+    --optimizer-offload-fraction 0.05
 )
 
 MODEL_CONFIG_ARGS=(
     --model-name pi05
     --use-distributed-optimizer
     --distributed-backend nccl
-    #--random-fallback-cpu
+    --random-fallback-cpu
 )
 
 LOGGING_ARGS=(
     --log-interval 1
+    --tensorboard-dir ${TENSORBOARD_PATH}
 )
+
+#if [ -n "${WANDB_API_KEY}" ]; then
+#    LOGGING_ARGS+=(
+#        --wandb-project ${WANDB_PROJECT}
+#        --wandb-exp-name ${WANDB_NAME}
+#    )
+#fi
 
 PYTHONPATH=$MEGATRON_PATH:$LOONGFORGE_PATH:${PYTHONPATH:-} \
     torchrun ${DISTRIBUTED_ARGS[@]} \
@@ -156,7 +164,6 @@ PYTHONPATH=$MEGATRON_PATH:$LOONGFORGE_PATH:${PYTHONPATH:-} \
     ${DATA_ARGS[@]} \
     ${TRAINING_ARGS[@]} \
     ${LOGGING_ARGS[@]}
-
 ```
 
 ## Monitoring Logs

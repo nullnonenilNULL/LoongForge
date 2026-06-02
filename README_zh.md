@@ -58,7 +58,7 @@
 - **[2026/05]** 🤖 扩展 VLA 模型覆盖，新增 **GR00T N1.6**；Pi0.5 与 GR00T 训练实现 **60%+ 加速**。
 - **[2026/04]** 🧩 新增 **MiniMax-M2.7** 在 NVIDIA GPU 与昆仑芯 XPU 上的训练支持。
 - **[2026/04]** 🚀 LoongForge 源码在 GitHub 上正式公开。[[blog]](https://zhuanlan.zhihu.com/p/2031006068797600446)
-- **[2026/05]** 🌟 基于AIAK-Training-LLM（LoongForge 前身）支持 **LLaVA-OneVision-1.5** 模型训练并协助其公开发布。[[blog]](https://mp.weixin.qq.com/s/1y7Br15pBpUZ-90j5OGncA)
+- **[2025/10]** 🌟 基于AIAK-Training-LLM（LoongForge 前身）支持 **LLaVA-OneVision-1.5** 模型训练并协助其公开发布。[[blog]](https://mp.weixin.qq.com/s/1y7Br15pBpUZ-90j5OGncA)
 
 <a id="quickstart"></a>
 ## ⚡ 快速开始

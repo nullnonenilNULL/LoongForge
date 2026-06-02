@@ -25,7 +25,7 @@
 </p>
 
 <p align="center">
-  <b>🚀 Up to <a href="#benchmark">5.04× training speedup</a></b> &nbsp;·&nbsp;
+  <b>🚀 Up to 5.04× training speedup</b> &nbsp;·&nbsp;
   <b>🌐 Native NVIDIA GPU & Kunlun XPU support</b>
 </p>
 

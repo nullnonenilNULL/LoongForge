@@ -13,11 +13,6 @@
 <h4>A modular, scalable, high-performance training framework for LLMs, VLMs, diffusion, and embodied models.</h4>
 
 <p align="center">
-  <b>🚀 Up to <a href="#benchmark">5.04× training speedup</a></b> &nbsp;·&nbsp;
-  <b>🌐 Native NVIDIA GPU & Kunlun XPU support</b>
-</p>
-
-<p align="center">
 
 [![Home](https://img.shields.io/badge/LoongForge-Home-8A2CE3?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCIgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByb2xlPSJpbWciIGFyaWEtbGFiZWw9Ikxvb25nRm9yZ2UgbG9nbyI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImciIHgxPSIwIiB5MT0iMCIgeDI9IjEiIHkyPSIxIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzYzNjZGMSIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzhCNUNGNiIvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNGNTlFMEIiLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHg9IjIiIHk9IjIiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcng9IjE0IiBmaWxsPSJ1cmwoI2cpIi8+CiAgPHBhdGggZD0iTTE4IDQwIEMgMjIgMzAsIDI4IDI4LCAzMiAzMiBDIDM2IDM2LCA0MiAzNCwgNDYgMjQiCiAgICAgICAgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBmaWxsPSJub25lIi8+CiAgPGNpcmNsZSBjeD0iNDYiIGN5PSIyNCIgcj0iMy4yIiBmaWxsPSIjZmZmIi8+CiAgPGNpcmNsZSBjeD0iMTgiIGN5PSI0MCIgcj0iMi4yIiBmaWxsPSIjZmZmIiBvcGFjaXR5PSIwLjg1Ii8+CiAgPHBhdGggZD0iTTI0IDQ2IEw0MCA0NiIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgb3BhY2l0eT0iMC43Ii8+Cjwvc3ZnPgo=)](https://baidu-baige.github.io/LoongForge/)
 [![Docs](https://img.shields.io/badge/Docs-Latest-00A3FF?logo=readthedocs)](https://loongforge.readthedocs.io/en/latest/index.html)
@@ -27,6 +22,11 @@
 [![Slack](https://img.shields.io/badge/Slack-Join-4A154B.svg?logo=slack)](https://join.slack.com/t/baiduloongforge/shared_invite/zt-3ys3kaq2p-cmdw0nDoaHGOcKibgys5Yw)
 [![WeChat](https://img.shields.io/badge/WeChat-Join-07C160.svg?logo=wechat)](#contact)
 
+</p>
+
+<p align="center">
+  <b>🚀 Up to <a href="#benchmark">5.04× training speedup</a></b> &nbsp;·&nbsp;
+  <b>🌐 Native NVIDIA GPU & Kunlun XPU support</b>
 </p>
 
 <p align="center">

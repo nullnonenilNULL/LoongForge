@@ -237,7 +237,7 @@ LoongForge is built upon NVIDIA's Megatron-LM. We also drew inspiration from sev
 
 Open a GitHub issue for questions, feedback, or feature requests. You can also [join our Slack community](https://join.slack.com/t/baiduloongforge/shared_invite/zt-3ys3kaq2p-cmdw0nDoaHGOcKibgys5Yw) or scan the WeChat QR code below to join our developer community.
 
-<img width="377" alt="LoongForge WeChat Community" src="https://github.com/user-attachments/assets/4c69c950-f2e7-4b5e-bc9a-ffe0ebf09760" />
+<img width="377" alt="LoongForge WeChat Community"  src="https://github.com/user-attachments/assets/7516fcea-5f30-49ba-989f-a33e105bc32b" />
 
 
 

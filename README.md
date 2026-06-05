@@ -220,7 +220,10 @@ LoongForge is built upon NVIDIA's Megatron-LM. We also drew inspiration from sev
 ## 💬 Contact
 <a id="contact"></a>
 
-Open a GitHub issue for questions, feedback, or feature requests. You can also [join our Slack community](https://join.slack.com/t/baiduloongforge/shared_invite/zt-3ys3kaq2p-cmdw0nDoaHGOcKibgys5Yw) or scan the [WeChat QR code](https://github.com/baidu-baige/LoongForge/issues/80#issue-4594463290) to join our developer community.
+Open a GitHub issue for questions, feedback, or feature requests. You can also join our developer community:
+
+- **WeChat** — [Scan QR code to join](https://github.com/baidu-baige/LoongForge/issues/80#issue-4594463290)
+- **Slack** — [Join here](https://join.slack.com/t/baiduloongforge/shared_invite/zt-3ys3kaq2p-cmdw0nDoaHGOcKibgys5Yw)
 
 
 

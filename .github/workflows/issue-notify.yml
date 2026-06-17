@@ -1,0 +1,41 @@
+name: Issue Notify
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: read
+
+jobs:
+  issue-notify:
+    name: Notify Ruliu on new issue
+    runs-on: [self-hosted, Linux, X64]
+    env:
+      RULIU_ISSUE_WEBHOOK: ${{ secrets.RULIU_ISSUE_WEBHOOK }}
+      ISSUE_TITLE: ${{ github.event.issue.title }}
+      ISSUE_NUMBER: ${{ github.event.issue.number }}
+      ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+      ISSUE_URL: ${{ github.event.issue.html_url }}
+      REPOSITORY: ${{ github.repository }}
+    steps:
+      - name: Notify via Ruliu group
+        run: |
+          if [ -z "${RULIU_ISSUE_WEBHOOK:-}" ]; then
+            echo "RULIU_ISSUE_WEBHOOK 未配置，跳过通知"
+            exit 0
+          fi
+
+          CONTENT=$(cat <<EOF
+          ##### LoongForge Issue 通知
+          **Repo**: ${REPOSITORY}
+          **Issue**: #${ISSUE_NUMBER} ${ISSUE_TITLE}
+          **Author**: ${ISSUE_AUTHOR}
+          **Link**: ${ISSUE_URL}
+          EOF
+          )
+          PAYLOAD=$(jq -n --arg content "$CONTENT" '{message:{body:[{type:"MD",content:$content}]}}')
+
+          curl -sS -X POST "$RULIU_ISSUE_WEBHOOK" \
+            -H 'Content-Type: application/json' \
+            -d "$PAYLOAD" || echo "如流 Issue 通知发送失败（不影响主流程）"

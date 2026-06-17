@@ -12,6 +12,7 @@ This directory contains the CI/CD workflows for LoongForge.
 | `build.yml` | PR + push to master | Build sdist + wheel on Python 3.10 / 3.12 |
 | `submodule-sync.yml` | repository dispatch / workflow dispatch + manual | Sync `third_party/Loong-Megatron` to its tracked branch and push the submodule pointer update |
 | `auto-label.yml` | Issue/PR open/edit | Auto-label issues and PRs by keyword matching |
+| `issue-notify.yml` | Issue opened | Notify Ruliu group when a new issue is opened |
 
 All workflows support `workflow_dispatch` for manual re-runs from the Actions UI (except `auto-label.yml`).
 
@@ -46,3 +47,11 @@ Required secrets:
 - `SUBMODULE_SYNC_APP_PRIVATE_KEY`
 
 The GitHub App behind those secrets must be able to push to the configured target branch.
+
+## Ruliu Issue Notifications
+
+`issue-notify.yml` sends a Markdown message to a Ruliu group when a new GitHub Issue is opened. It runs on the self-hosted Linux runner because the Ruliu webhook host is only reachable from the internal network.
+
+Required secret:
+
+- `RULIU_ISSUE_WEBHOOK`: Ruliu group robot webhook URL for issue notifications.

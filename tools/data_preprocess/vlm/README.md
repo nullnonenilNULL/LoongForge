@@ -72,4 +72,4 @@ Done
 ## 2 Offline Packing Data Processing
 
 See
-[Offline Data Packing Guide](tools/data_preprocess/vlm/offline_packing/README.md)
+[Offline Data Packing Guide](./offline_packing/README.md)

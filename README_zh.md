@@ -53,7 +53,7 @@
 
 ## 🔥 最新动态
 
-- **[2026/07]** 🤖 发布 **LoongForge-Embodied** 子模块，提供主流 **VLA** 与 **WAM** 模型的训练支持。
+- **[2026/07]** 🤖 发布 **[LoongForge-Embodied](./loongforge/embodied)** 子系统，提供主流 **VLA** 与 **WAM** 模型的训练支持。
 - **[2026/07]** ✨ 新增 **DeepSeek v4 flash / DeepSeek v4 pro** 训练支持。
 - **[2026/05]** ⚡ **Wan 2.2** 训练 **加速 116%**，并新增 CP（上下文并行）与数据 packing 策略支持。
 - **[2026/05]** ✨ 新增 **Kimi K2.5 / K2.6** 训练支持，并支持 **INT4 / NVFP4** PTQ 量化能力。

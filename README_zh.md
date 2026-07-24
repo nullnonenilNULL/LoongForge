@@ -127,10 +127,10 @@
 
 基于 LoongForge 或其前身 AIAK-Training-LLM 训练的开源模型：
 
-- [LLaVA-OneVision-2.0](https://github.com/EvolvingLMMs-Lab/LLaVA-OneVision-2) —— 新一代多模态模型，配套全新的 VideoCaption 和 Spatial 数据集。[[paper](https://arxiv.org/abs/2605.25979)]
-- [Innovator-VL](https://github.com/InnovatorLM/Innovator-VL/tree/main) —— 面向高级推理的科学多模态大模型。[[paper](https://arxiv.org/abs/2601.19325)]
-- [LLaVA-OneVision-1.5](https://github.com/EvolvingLMMs-Lab/LLaVA-OneVision-2/tree/1.5) —— 面向多模态训练民主化的全开源框架。[[paper](https://arxiv.org/abs/2509.23661)]
-- [Qianfan-VL](https://github.com/baidubce/Qianfan-VL) —— 面向企业的领域增强视觉-语言模型，参数量覆盖 3B ~ 70B。[[paper](https://arxiv.org/abs/2509.18189)]
+- [LLaVA-OneVision-2.0](https://github.com/EvolvingLMMs-Lab/LLaVA-OneVision-2) —— 新一代多模态模型，配套全新的 VideoCaption 和 Spatial 数据集。
+- [Innovator-VL](https://github.com/InnovatorLM/Innovator-VL/tree/main) —— 面向高级推理的科学多模态大模型。
+- [LLaVA-OneVision-1.5](https://github.com/EvolvingLMMs-Lab/LLaVA-OneVision-2/tree/1.5) —— 面向多模态训练民主化的全开源框架。
+- [Qianfan-VL](https://github.com/baidubce/Qianfan-VL) —— 面向企业的领域增强视觉-语言模型，参数量覆盖 3B ~ 70B。
 
 <a id="models"></a>
 ## 🏛️ 支持的模型

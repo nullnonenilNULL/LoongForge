@@ -53,7 +53,7 @@ Before going open-source, LoongForge was developed as **AIAK-Training-LLM**, Bai
 
 ## 🔥 Latest News
 
-- **[2026/07]** 🤖 Released the **LoongForge-Embodied** submodule, delivering training support for mainstream **VLA** and **WAM** models.
+- **[2026/07]** 🤖 Released the **[LoongForge-Embodied](./loongforge/embodied)** submodule, delivering training support for mainstream **VLA** and **WAM** models.
 - **[2026/07]** ✨ Added training support for **DeepSeek v4 flash / DeepSeek v4 pro**.
 - **[2026/05]** ⚡ Accelerated **Wan 2.2** training by **116%**, and added CP and data packing support.
 - **[2026/05]** ✨ Added training support for **Kimi K2.5 / K2.6**, and introduced **INT4 / NVFP4** PTQ.

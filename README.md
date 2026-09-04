@@ -14,21 +14,15 @@
 
 <p align="center">
   <a href="https://github.com/baidu-baige/LoongForge/stargazers"><img src="https://img.shields.io/github/stars/baidu-baige/LoongForge?style=flat&logo=github&color=4F46E5" alt="GitHub stars"></a>
-  &nbsp;
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-green?logo=apache&logoColor=white" alt="License: Apache-2.0"></a>
-  &nbsp;
   <a href="https://hub.docker.com/u/loongforge"><img src="https://img.shields.io/badge/Docker-loongforge-2496ED?logo=docker&logoColor=white" alt="Docker images on Docker Hub"></a>
-  &nbsp;
   <a href="./CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?logo=github&logoColor=white" alt="PRs welcome"></a>
 </p>
 
 <p align="center">
   <a href="#performance"><img src="https://img.shields.io/badge/⚡_Speedup-up_to_5.04x-3B4FD8" alt="Training throughput speedup up to 5.04x over open-source baselines"></a>
-  &nbsp;
   <a href="#models"><img src="https://img.shields.io/badge/📦_Models-40%2B_ready_to_run-7C3AED" alt="40+ ready-to-run model examples"></a>
-  &nbsp;
   <img src="https://img.shields.io/badge/🖥_Hardware-NVIDIA%2BKunlun-EC4899" alt="Runs on NVIDIA GPUs and Kunlun XPUs">
-  &nbsp;
   <img src="https://img.shields.io/badge/🏭_Production-5000%2B_XPUs-DB2777" alt="Proven in production with runs up to 5,000+ XPUs">
 </p>
 
@@ -48,21 +42,14 @@
   <a href="#contact"><b>💬 Contact Us</b></a>
 </p>
 
-<table>
-  <tr>
-    <td>
-      <a href="https://baidu-baige.github.io/LoongForge/assets/video/dreamzero-comparison.mp4">
-        <picture>
-          <source media="(prefers-reduced-motion: reduce)" srcset="./docs/assets/images/demo/dreamzero-poster.jpg">
-          <img alt="DreamZero training run compared side by side: LoongForge reaches 4.38x the baseline throughput while the training loss curves stay aligned" src="./docs/assets/images/demo/dreamzero-loop.webp" width="800" />
-        </picture>
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center"><sub>e.g. DreamZero on 8 GPUs: <b>4.38×</b> throughput vs. the official baseline, loss curves aligned. <a href="#performance">More benchmarks →</a></sub></td>
-  </tr>
-</table>
+<p align="center">
+  <a href="https://baidu-baige.github.io/LoongForge/assets/video/dreamzero-comparison.mp4">
+    <picture>
+      <source media="(prefers-reduced-motion: reduce)" srcset="./docs/assets/images/demo/dreamzero-poster.jpg">
+      <img alt="DreamZero training run compared side by side: LoongForge reaches 4.38x the baseline throughput while the training loss curves stay aligned" src="./docs/assets/images/demo/dreamzero-loop.webp" width="830" />
+    </picture>
+  </a>
+</p>
 
 </div>
 

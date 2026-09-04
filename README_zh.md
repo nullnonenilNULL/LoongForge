@@ -14,21 +14,15 @@
 
 <p align="center">
   <a href="https://github.com/baidu-baige/LoongForge/stargazers"><img src="https://img.shields.io/github/stars/baidu-baige/LoongForge?style=flat&logo=github&color=4F46E5" alt="GitHub stars"></a>
-  &nbsp;
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-green?logo=apache&logoColor=white" alt="License: Apache-2.0"></a>
-  &nbsp;
   <a href="https://hub.docker.com/u/loongforge"><img src="https://img.shields.io/badge/Docker-loongforge-2496ED?logo=docker&logoColor=white" alt="Docker Hub 镜像"></a>
-  &nbsp;
   <a href="./CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?logo=github&logoColor=white" alt="欢迎 PR"></a>
 </p>
 
 <p align="center">
   <a href="#performance"><img src="https://img.shields.io/badge/⚡_Speedup-up_to_5.04x-3B4FD8" alt="训练吞吐相比开源基线最高提升 5.04 倍"></a>
-  &nbsp;
   <a href="#models"><img src="https://img.shields.io/badge/📦_Models-40%2B_ready_to_run-7C3AED" alt="40+ 开箱即用的模型示例"></a>
-  &nbsp;
   <img src="https://img.shields.io/badge/🖥_Hardware-NVIDIA%2BKunlun-EC4899" alt="同时支持 NVIDIA GPU 与昆仑芯 XPU">
-  &nbsp;
   <img src="https://img.shields.io/badge/🏭_Production-5000%2B_XPUs-DB2777" alt="生产验证，最大规模 5,000+ XPU">
 </p>
 
@@ -48,21 +42,14 @@
   <a href="#contact"><b>💬 联系我们</b></a>
 </p>
 
-<table>
-  <tr>
-    <td>
-      <a href="https://baidu-baige.github.io/LoongForge/assets/video/dreamzero-comparison.mp4">
-        <picture>
-          <source media="(prefers-reduced-motion: reduce)" srcset="./docs/assets/images/demo/dreamzero-poster.jpg">
-          <img alt="DreamZero 训练左右对照：LoongForge 吞吐达到基线的 4.38 倍，训练 loss 曲线保持对齐" src="./docs/assets/images/demo/dreamzero-loop.webp" width="800" />
-        </picture>
-      </a>
-    </td>
-  </tr>
-  <tr>
-    <td align="center"><sub>例：DreamZero 8 卡训练，吞吐为官方基线的 <b>4.38×</b>，loss 曲线对齐。<a href="#performance">更多性能数据 →</a></sub></td>
-  </tr>
-</table>
+<p align="center">
+  <a href="https://baidu-baige.github.io/LoongForge/assets/video/dreamzero-comparison.mp4">
+    <picture>
+      <source media="(prefers-reduced-motion: reduce)" srcset="./docs/assets/images/demo/dreamzero-poster.jpg">
+      <img alt="DreamZero 训练左右对照：LoongForge 吞吐达到基线的 4.38 倍，训练 loss 曲线保持对齐" src="./docs/assets/images/demo/dreamzero-loop.webp" width="830" />
+    </picture>
+  </a>
+</p>
 
 </div>
 

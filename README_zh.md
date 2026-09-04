@@ -3,13 +3,11 @@
 <div align="center">
 
 <p align="center">
-  <br>
   <picture>
     <source media="(prefers-color-scheme: dark)"  srcset="./docs/assets/images/logo/banner-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="./docs/assets/images/logo/banner.svg">
     <img alt="LoongForge —— 更快地训练 LLM、VLM、Diffusion 与具身模型。" src="./docs/assets/images/logo/banner.svg" width="760">
   </picture>
-  <br>
 </p>
 
 <p align="center">
@@ -17,9 +15,7 @@
   <a href="./LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-green?logo=apache&logoColor=white" alt="License: Apache-2.0"></a>
   <a href="https://hub.docker.com/u/loongforge"><img src="https://img.shields.io/badge/Docker-loongforge-2496ED?logo=docker&logoColor=white" alt="Docker Hub 镜像"></a>
   <a href="./CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen?logo=github&logoColor=white" alt="欢迎 PR"></a>
-</p>
-
-<p align="center">
+  <br>
   <a href="#performance"><img src="https://img.shields.io/badge/⚡_Speedup-up_to_5.04x-3B4FD8" alt="训练吞吐相比开源基线最高提升 5.04 倍"></a>
   <a href="#models"><img src="https://img.shields.io/badge/📦_Models-40%2B_ready_to_run-7C3AED" alt="40+ 开箱即用的模型示例"></a>
   <img src="https://img.shields.io/badge/🖥_Hardware-NVIDIA%2BKunlun-EC4899" alt="同时支持 NVIDIA GPU 与昆仑芯 XPU">

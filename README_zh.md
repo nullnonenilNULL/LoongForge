@@ -48,8 +48,6 @@
   <a href="#contact"><b>💬 联系我们</b></a>
 </p>
 
-<p align="center"><br></p>
-
 <table>
   <tr>
     <td>

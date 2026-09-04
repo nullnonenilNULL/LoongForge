@@ -1,4 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="8 10 1786 830" width="100%" font-family="'Comic Sans MS','Comic Sans','Chalkboard SE','Bradley Hand',cursive">
+  <title>LoongForge architecture: a patched-Megatron stack for LLMs, VLMs and diffusion models alongside a torch-native stack for embodied models</title>
   <defs>
     <filter id="sketch" x="-4%" y="-4%" width="108%" height="108%">
       <feTurbulence type="turbulence" baseFrequency="0.013" numOctaves="2" seed="7" result="noise"/>

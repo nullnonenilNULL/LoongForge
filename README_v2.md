@@ -6,9 +6,11 @@
   <picture>
     <source media="(prefers-color-scheme: dark)"  srcset="./docs/assets/images/logo/banner-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="./docs/assets/images/logo/banner.svg">
-    <img alt="LoongForge — Train LLMs, VLMs, diffusion &amp; embodied models, faster." src="./docs/assets/images/logo/banner.svg" width="760">
+    <img alt="LoongForge" src="./docs/assets/images/logo/banner.svg" width="682">
   </picture>
 </p>
+
+<p align="center"><b>Train LLMs, VLMs, diffusion and embodied models, faster.</b></p>
 
 <p align="center">
   <a href="https://github.com/baidu-baige/LoongForge/stargazers"><img src="https://img.shields.io/github/stars/baidu-baige/LoongForge?style=flat&logo=github&color=4F46E5" alt="GitHub stars"></a>

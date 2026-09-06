@@ -3,10 +3,10 @@
 
 """Regenerate the LoongForge logo assets that sit next to this script.
 
-The wordmark and tagline are converted to outlines, so the lockup renders
-identically everywhere instead of depending on Inter being installed on the
-reader's machine. That also means the SVGs cannot be edited by hand — change
-the constants below and re-run this script instead.
+The wordmark is converted to outlines, so the lockup renders identically
+everywhere instead of depending on Inter being installed on the reader's
+machine. That also means the SVGs cannot be edited by hand — change the
+constants below and re-run this script instead.
 
 Setup, then run:
 
@@ -29,22 +29,22 @@ from fontTools.ttLib import TTFont
 import uharfbuzz as hb
 
 WORDMARK = "LoongForge"
-TAGLINE = "Train LLMs, VLMs, diffusion & embodied models — faster."
 
 WM_FONT, WM_SIZE, WM_TRACK = "InterDisplay-ExtraBold.otf", 86, -2.5
-TL_FONT, TL_SIZE, TL_TRACK = "Inter-SemiBold.otf", 19, 0.3
 
 PAD = 21          # left/right padding, matches the icon's own left inset
 GAP = 52          # optical gap between the mark and the wordmark
-LINE_GAP = 9      # ink gap between wordmark descenders and the tagline cap line
-TOP = 15.0        # the wordmark cap line and the top of the mark both start here
+TOP = 15.0        # top of the mark
 BOTTOM_PAD = 14.4
+# Squircle scale carried over from the original lockup, where it keyed the
+# mark to the (now removed) tagline baseline; the wordmark is centred on it.
+ICON_SCALE = 1.7365
 
 THEMES = {
     "light": dict(icon=("#4F46E5", "#7C3AED", "#DB2777"),
-                  text=("#4F46E5", "#7C3AED", "#DB2777"), tag="#423C55"),
+                  text=("#4F46E5", "#7C3AED", "#DB2777")),
     "dark": dict(icon=("#6366F1", "#8B5CF6", "#F472B6"),
-                 text=("#A5B4FC", "#FDE68A", "#F472B6"), tag="#E8E4F0"),
+                 text=("#A5B4FC", "#FDE68A", "#F472B6")),
 }
 
 # The mark, drawn on a 64-unit grid. The inner group recentres and enlarges the
@@ -93,29 +93,22 @@ def outline(font_path, text, size, tracking):
 
 def banner(theme, font_dir):
     wd, wink = outline(os.path.join(font_dir, WM_FONT), WORDMARK, WM_SIZE, WM_TRACK)
-    td, tink = outline(os.path.join(font_dir, TL_FONT), TAGLINE, TL_SIZE, TL_TRACK)
 
-    # Key the mark's height to the two strongest horizontals in the type block:
-    # the wordmark cap line and the tagline baseline. Both edges then read
-    # flush, which matching the two centres does not achieve when the masses
-    # differ in height.
-    tagline_baseline = wink[3] - tink[1] + LINE_GAP   # relative to the wordmark baseline
-    scale = (tagline_baseline - wink[1]) / 60.0       # the squircle is 60 units tall
+    # Centre the wordmark on the mark: cap line and descender ink sit at
+    # equal distances from the mark's top and bottom edges.
+    icon_x = PAD - 2 * ICON_SCALE                    # squircle ink starts at PAD
+    icon_y = TOP - 2 * ICON_SCALE
+    text_x = PAD + 60 * ICON_SCALE + GAP
+    b1 = TOP + 30 * ICON_SCALE - (wink[1] + wink[3]) / 2
 
-    icon_x = PAD - 2 * scale                         # squircle ink starts at PAD
-    icon_y = TOP - 2 * scale
-    text_x = PAD + 60 * scale + GAP
-    b1 = TOP - wink[1]
-    b2 = b1 + tagline_baseline
-
-    width = round(text_x + max(wink[2], tink[2]) + PAD)
-    height = round(max(TOP + 60 * scale, b2 + tink[3]) + BOTTOM_PAD)
+    width = round(text_x + wink[2] + PAD)
+    height = round(max(TOP + 60 * ICON_SCALE, b1 + wink[3]) + BOTTOM_PAD)
     t = THEMES[theme]
 
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" width="{width}" height="{height}"
-     role="img" aria-label="LoongForge — Train LLMs, VLMs, diffusion and embodied models, faster.">
-  <!-- Wordmark and tagline are outlined Inter (SIL OFL 1.1), so the lockup
-       renders identically everywhere instead of falling back to Arial. -->
+     role="img" aria-label="LoongForge">
+  <!-- Wordmark is outlined Inter (SIL OFL 1.1), so the lockup renders
+       identically everywhere instead of falling back to Arial. -->
   <defs>
     <linearGradient id="lf-icon" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0%"   stop-color="{t['icon'][0]}"/>
@@ -129,20 +122,15 @@ def banner(theme, font_dir):
     </linearGradient>
   </defs>
 
-  <!-- Icon: squircle + mark, keyed to cap line -> tagline baseline -->
-  <g transform="translate({icon_x:.2f},{icon_y:.2f}) scale({scale:.4f})">
+  <!-- Icon: squircle + mark; the wordmark is centred against it -->
+  <g transform="translate({icon_x:.2f},{icon_y:.2f}) scale({ICON_SCALE:.4f})">
     <rect x="2" y="2" width="60" height="60" rx="14" fill="url(#lf-icon)"/>
 {MARK}
   </g>
 
-  <!-- Wordmark: InterDisplay ExtraBold {WM_SIZE}px, tracking {WM_TRACK} -->
+  <!-- Wordmark: InterDisplay ExtraBold {WM_SIZE}px, tracking {WM_TRACK}, centred on the mark -->
   <g transform="translate({text_x:.1f},{b1:.2f})" fill="url(#lf-text)">
     <path d="{wd}"/>
-  </g>
-
-  <!-- Tagline: Inter SemiBold {TL_SIZE}px, tracking {TL_TRACK} -->
-  <g transform="translate({text_x:.1f},{b2:.2f})" fill="{t['tag']}">
-    <path d="{td}"/>
   </g>
 </svg>
 """

@@ -44,6 +44,8 @@
 
 ---
 
+<h6 align="center">示例：LoongForge 将 DreamZero 具身训练提速 4.38×</h6>
+
 <p align="center">
   <a href="https://baidu-baige.github.io/LoongForge/assets/video/dreamzero-comparison.mp4">
     <picture>

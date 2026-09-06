@@ -44,7 +44,7 @@
 
 ---
 
-<h6 align="center">Example: LoongForge speeds up DreamZero embodied training by 4.38×</h6>
+<h6 align="left">Example: LoongForge accelerates embodied-model training — DreamZero reaches 4.38× the baseline</h6>
 
 <p align="center">
   <a href="https://baidu-baige.github.io/LoongForge/assets/video/dreamzero-comparison.mp4">

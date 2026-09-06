@@ -148,7 +148,7 @@
   <a href="https://baidu-baige.github.io/LoongForge/assets/video/dreamzero-comparison.mp4">
     <picture>
       <source media="(prefers-reduced-motion: reduce)" srcset="./docs/assets/images/demo/dreamzero-poster.jpg">
-      <img alt="DreamZero 训练左右对照：LoongForge 吞吐达到基线的 4.38 倍，训练 loss 曲线保持对齐" src="./docs/assets/images/demo/dreamzero-loop.webp" width="830" />
+      <img alt="DreamZero 训练左右对照：LoongForge 吞吐达到基线的 4.38 倍，训练 loss 曲线保持对齐" src="./docs/assets/images/demo/dreamzero-loop.webp" width="100%" />
     </picture>
   </a>
 </p>

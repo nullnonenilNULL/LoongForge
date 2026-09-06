@@ -44,7 +44,7 @@
 
 ---
 
-<h6 align="left">Example: DreamZero embodied training on LoongForge — 4.38× the baseline, loss curves aligned</h6>
+<h6 align="left">Example: embodied-model training on LoongForge — DreamZero at 4.38× the baseline, loss curves aligned</h6>
 
 <p align="center">
   <a href="https://baidu-baige.github.io/LoongForge/assets/video/dreamzero-comparison.mp4">

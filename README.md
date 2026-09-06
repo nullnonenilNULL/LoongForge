@@ -114,7 +114,7 @@ Since optimal training strategies differ across model families and scales, Loong
 **🚀 Foundation Models**
 
 * **MoE EP Communication Optimization** — Overlapped All2All / activation offload / compute, with **further memory reduction** beyond upstream Megatron-LM on DeepSeek-V3, Qwen3-MoE, etc.
-* **MoE Expert Load Balancing** — Topology-aware dynamic replication of hot experts, cutting expert-parallel imbalance overhead by up to **74%**. [[TAOT Paper](https://arxiv.org/pdf/2608.03676)]
+* **MoE Expert Load Balancing** — Topology-aware dynamic replication of hot experts, cutting expert-parallel load-imbalance overhead by up to **74%** over industry solutions. [[TAOT Paper](https://arxiv.org/pdf/2608.03676)]
 * **Adaptive FP8 Training** — End-to-end FP8 for LLMs and VLMs with standard **blockwise FP8**; optional **adaptive** mode picks per-operator precision by GEMM shape and efficiency.
 * **Custom Fused Operators** — Fused kernels like **FusedDSA** for DSA-style models — TileLang version open-sourced, high-performance CUDA version available on Baidu Baige platform.
 * **Long-Sequence Training** — **Context Parallel (CP)** with **chunked-pipeline scheduling** scales LLM training to long sequence lengths.

@@ -10,7 +10,7 @@
   </picture>
 </p>
 
-<p align="center"><b>更快地训练 LLM、VLM、Diffusion 与具身模型</b></p>
+<h3 align="center">更快地训练 LLM、VLM、Diffusion 与具身模型</h3>
 
 <p align="center">
   <a href="https://github.com/baidu-baige/LoongForge/stargazers"><img src="https://img.shields.io/github/stars/baidu-baige/LoongForge?style=flat&logo=github&color=4F46E5" alt="GitHub stars"></a>

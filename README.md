@@ -10,7 +10,7 @@
   </picture>
 </p>
 
-<p align="center"><b>Train LLMs, VLMs, diffusion and embodied models, faster.</b></p>
+<h3 align="center">Train LLMs, VLMs, diffusion and embodied models, faster.</h3>
 
 <p align="center">
   <a href="https://github.com/baidu-baige/LoongForge/stargazers"><img src="https://img.shields.io/github/stars/baidu-baige/LoongForge?style=flat&logo=github&color=4F46E5" alt="GitHub stars"></a>

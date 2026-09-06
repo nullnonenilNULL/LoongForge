@@ -40,6 +40,8 @@
   <a href="#contact"><b>💬 联系我们</b></a>
 </p>
 
+---
+
 <p align="center">
   <a href="https://baidu-baige.github.io/LoongForge/assets/video/dreamzero-comparison.mp4">
     <picture>

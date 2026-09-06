@@ -164,7 +164,7 @@ Training throughput speedups over mainstream open-source baselines — each mode
 - **NVIDIA GPU**: [LLM](https://loongforge.readthedocs.io/en/latest/llm_tutorial/quick_start_llm_pretrain.html) · [VLM](https://loongforge.readthedocs.io/en/latest/vlm_tutorial/quick_start_vlm_pretrain.html) · [VLA & WAM](https://loongforge.readthedocs.io/en/latest/embodied_tutorial/overview.html) · [Diffusion](https://loongforge.readthedocs.io/en/latest/wan_tutorial/quick_start_wan_training.html)
 - **Kunlun XPU**: [Kunlun XPU Tutorials](https://loongforge.readthedocs.io/en/latest/kunlun_tutorial/README.html)
 
-**3. Find your model's scripts** — every supported model has ready-to-run launch scripts under [`examples/`](./examples) / [`examples_xpu/`](./examples_xpu), with configs in [`configs/models/`](./configs/models).
+**3. Find your model's scripts** — ready-to-run launch scripts are available under [`examples/`](./examples) / [`examples_xpu/`](./examples_xpu), with configs in [`configs/models/`](./configs/models).
 
 <a id="models"></a>
 ## 🏛️ Supported Models

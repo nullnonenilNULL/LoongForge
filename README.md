@@ -86,6 +86,7 @@ Since optimal training strategies differ across model families and scales, Loong
 ## 🔥 Latest News
 
 - **[2026/09]** ✨ Added training support for **[GLM-5.3-flash](./examples/glm5_next/)**.
+- **[2026/09]** 🤖 Added the **[ego2robot](./tools/data_preprocess/embodied/ego2robot/)** data pipeline — converts first-person human manipulation videos into **LeRobot v3.0** training data across **16 dual-arm robot morphologies** via MuJoCo retargeting.
 - **[2026/09]** ✨ Added **[Kimi-K3](./examples/kimi_k3/)** BF16 training support for both LLMs and VLMs.
 - **[2026/09]** ⚡ Added an optimized **[DreamZero Wan2.2-5B FSDP recipe](./examples/embodied/dreamzero/run_dreamzero_wan22_5b_full_fsdp_finetune.sh)** with cache-aware data loading, compiled attention blocks, frozen-module handling, and FSDP2 Delta-FP8 Param AllGather.
 - **[2026/08]** 🤖 Added VLA training support for **[Wall-OSS-0.5](./examples/embodied/wall_oss_0_5/)**, with custom fused operators for higher training throughput.
@@ -135,6 +136,7 @@ Since optimal training strategies differ across model families and scales, Loong
 * **FP8 Communication Optimization** — Optional FP8 optimizations that cut cross-rank traffic on supported NVIDIA GPUs, covering both parallel strategies: blockwise FP8 delta AllGather for **FSDP2** parameters, and FP8 grad all-reduce for **DDP** gradients. [[Usage](./docs/source/features/fp8_communication.md)]
 * **Per-Model Deep Optimization** — Training code deeply customized for each supported model across I/O, communication strategy, and kernel efficiency — **1.79×–4.38×** over official baselines in our [benchmarks](#performance).
 * **Unified Evaluation** — Evaluate trained policies on **LIBERO / CALVIN / SimplerEnv / RoboTwin**, with coverage expanding continuously.
+* **Ego-to-Robot Data Generation** — The [ego2robot](./tools/data_preprocess/embodied/ego2robot/) pipeline turns first-person human videos into **LeRobot v3.0** datasets across **16 dual-arm morphologies** via MuJoCo retargeting, hand removal, and background compositing.
 
 **🧰 Workflow & Compatibility**
 
@@ -288,7 +290,7 @@ LoongForge/
 ├── configs/                      # Hydra YAML configs (models, data)
 ├── examples/                     # GPU launch scripts
 ├── examples_xpu/                 # Kunlun XPU launch scripts
-├── tools/                        # Checkpoint conversion, data preprocessing
+├── tools/                        # Checkpoint conversion, data preprocessing, benchmarking
 ├── ops/                          # Custom fused operators (incl. open-sourced TileLang)
 ├── patches/                      # TransformerEngine patches
 ├── docker/                       # Dockerfiles (GPU & XPU)

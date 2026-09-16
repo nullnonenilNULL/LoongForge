@@ -86,6 +86,7 @@
 ## 🔥 最新动态
 
 - **[2026/09]** ✨ 新增 **[GLM-5.3-flash](./examples/glm5_next/)** 训练支持。
+- **[2026/09]** 🤖 新增 **[ego2robot](./tools/data_preprocess/embodied/ego2robot/)** 数据流水线 —— 将第一人称人手操作视频转换为覆盖 **16 种双臂机器人形态** 的 **LeRobot v3.0** 训练数据，基于 MuJoCo 重定向。
 - **[2026/09]** ✨ 新增 **[Kimi-K3](./examples/kimi_k3/)** 的 LLM 与 VLM BF16 训练支持。
 - **[2026/09]** ⚡ 新增优化后的 **[DreamZero Wan2.2-5B FSDP recipe](./examples/embodied/dreamzero/run_dreamzero_wan22_5b_full_fsdp_finetune.sh)**，集成 cache-aware 数据加载、attention block 编译、冻结模块处理与 FSDP2 Delta-FP8 Param AllGather。
 - **[2026/08]** 🤖 新增 **[Wall-OSS-0.5](./examples/embodied/wall_oss_0_5/)** VLA 训练支持，并通过自定义融合算子提升训练吞吐。
@@ -135,6 +136,7 @@
 * **FP8 通信优化** —— 在支持的 NVIDIA GPU 上，用 FP8 压缩跨卡通信量的可选优化，覆盖两种并行策略：**FSDP2** 场景对参数 AllGather 做按 block 的 FP8 delta 压缩，**DDP** 场景做 FP8 梯度 all-reduce。[[使用方法](./docs/source_zh/features/fp8_communication.md)]
 * **逐模型深度定制优化** —— 针对当前覆盖的每个模型深度优化训练代码，涵盖 I/O、通信策略、算子效率等维度，实测相对官方基线 **1.79×–4.38× 加速**（见[性能表现](#performance)）。
 * **统一评测** —— 在 **LIBERO / CALVIN / SimplerEnv / RoboTwin** 上评测训练出的策略，覆盖度持续完善。
+* **Ego-to-Robot 数据生成** —— [ego2robot](./tools/data_preprocess/embodied/ego2robot/) 流水线通过 MuJoCo 重定向、人手移除与背景合成，将第一人称人手视频转换为覆盖 **16 种双臂形态** 的 **LeRobot v3.0** 数据集。
 
 **🧰 工作流与兼容性**
 
@@ -288,7 +290,7 @@ LoongForge/
 ├── configs/                      # Hydra YAML 配置（模型、数据）
 ├── examples/                     # GPU 启动脚本
 ├── examples_xpu/                 # 昆仑芯 XPU 启动脚本
-├── tools/                        # Checkpoint 转换、数据预处理
+├── tools/                        # Checkpoint 转换、数据预处理、性能基准测试
 ├── ops/                          # 自定义融合算子（含开源的 TileLang 版本）
 ├── patches/                      # TransformerEngine 补丁
 ├── docker/                       # Dockerfile（GPU & XPU）

@@ -230,6 +230,20 @@ def _validate_extra_sft_args(args):
     # set to True in megatron arguments.py, so we don't need to re-check it.
     # `data_parallel_size` is recomputed locally with megatron's formula.
     if getattr(args, "enable_chunkpipe", False):
+        # A-series (Ampere / sm80) fused-DSA backend only supports ChunkPipe in
+        # pretrain; the SFT ChunkPipe path is not implemented for it yet.
+        from loongforge.models.common.experimental_attention_variant.dsa_kernel_backend import (
+            BACKEND_SM80,
+            resolve_backend_name,
+        )
+
+        if resolve_backend_name(args) == BACKEND_SM80:
+            raise NotImplementedError(
+                "SFT ChunkPipe is not supported on the sm80 (A-series / Ampere) "
+                "fused-DSA backend yet; only pretrain is supported. Use "
+                "--training-phase pretrain, or select a non-sm80 "
+                "--dsa-kernel-backend."
+            )
         if args.sft_data_streaming:
             raise NotImplementedError(
                 "SFT chunkpipe does not support --sft-data-streaming."

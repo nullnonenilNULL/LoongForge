@@ -26,6 +26,16 @@ requirements, and build options:
   RoPE, M-RoPE, RotPosEmb, RMSNorm, SwiGLU, MoE permute/unpermute,
   GetRopeIndex and GetWindowIndex. Every operator falls back to pure PyTorch
   when the CUDA extension is unavailable.
+- [`sparse_mla_sm80`](cuda_source/sparse_mla_sm80/README.md) — SM80 (Ampere) sparse
+  MLA forward/backward for the fused-DSA path (package `flash_mla_sm80`). BF16
+  `mma.sync` rewrite of the SM100 FlashMLA kernels; used by the `sm80` kernel backend.
+- [`lightning_indexer_sm80`](cuda_source/lightning_indexer_sm80/README.md) — SM80
+  (Ampere) BF16 lightning-indexer forward/backward, replacing
+  `deep_gemm.fp8_mqa_logits` on hardware without FP8 tensor cores.
+
+The `sparse_mla_sm80` and `lightning_indexer_sm80` packages are auto-located from the
+repo root by the `sm80` DSA kernel backend after being built in place
+(`python setup.py build_ext --inplace`), so no `PYTHONPATH` entry is required.
 
 ## Requirements
 
